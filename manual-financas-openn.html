@@ -542,16 +542,9 @@
     <div class="wiz-grp" id="grp-impostos" style="display:none;">
       <label class="wiz-lbl">Você paga impostos sobre essa renda?</label>
       <div class="wiz-radio-stack">
-        <label class="wiz-rl"><input type="radio" name="wpimp" value="sim" onchange="wToggleValImp()"> Sim, regularmente</label>
-        <label class="wiz-rl"><input type="radio" name="wpimp" value="as-vezes" onchange="wToggleValImp()"> Às vezes / irregularmente</label>
-        <label class="wiz-rl"><input type="radio" name="wpimp" value="nao" onchange="wToggleValImp()"> Não pago impostos</label>
-      </div>
-    </div>
-    <div class="wiz-grp" id="grp-val-imp" style="display:none;">
-      <label class="wiz-lbl" for="wiz-val-imp">Quanto você paga de impostos por mês? (estimativa)</label>
-      <div class="wiz-big-wrap" style="padding:10px 16px;">
-        <span class="wiz-big-sym" style="font-size:16px;">R$</span>
-        <input type="text" id="wiz-val-imp" class="wiz-big-inp" style="font-size:18px;" placeholder="0,00" inputmode="decimal" onblur="wFmt(this)"/>
+        <label class="wiz-rl"><input type="radio" name="wpimp" value="sim"> Sim, regularmente</label>
+        <label class="wiz-rl"><input type="radio" name="wpimp" value="as-vezes"> Às vezes / irregularmente</label>
+        <label class="wiz-rl"><input type="radio" name="wpimp" value="nao"> Não pago impostos</label>
       </div>
     </div>
     <div class="wiz-grp">
@@ -642,7 +635,7 @@
 <script>
 (function(){
 var WS=1, WMAX=4;
-var WD={renda:0,tempo:'',saldoPerfil:'',despesas:{},totalDesp:0,formalizacao:'',pagaImp:'',valImp:0,protecoes:[],contador:'',recibos:'',objetivos:[],dividas:'',poupaRegular:'',reservaNivel:''};
+var WD={renda:0,tempo:'',saldoPerfil:'',despesas:{},totalDesp:0,formalizacao:'',pagaImp:'',protecoes:[],contador:'',recibos:'',objetivos:[],dividas:'',poupaRegular:'',reservaNivel:''};
 var STITLES=['Sua Renda','Organização','Metas','Diagnóstico'];
 var SPCT=[25,50,75,100];
 
@@ -708,8 +701,7 @@ function wCollect(s){
     var sr=document.querySelector('[name="wsaldo"]:checked'); WD.saldoPerfil=sr?sr.value:'';
     var fr=document.querySelector('[name="wform"]:checked'); WD.formalizacao=fr?fr.value:'';
     var pr=document.querySelector('[name="wpimp"]:checked'); WD.pagaImp=pr?pr.value:'';
-    WD.valImp=wParse(document.getElementById('wiz-val-imp').value)||0;
-    WD.protecoes=Array.from(document.querySelectorAll('.wiz-prot:checked')).map(function(x){return x.value;});
+WD.protecoes=Array.from(document.querySelectorAll('.wiz-prot:checked')).map(function(x){return x.value;});
     var cr=document.querySelector('[name="wcont"]:checked'); WD.contador=cr?cr.value:'';
     var rr=document.querySelector('[name="wrecibos"]:checked'); WD.recibos=rr?rr.value:'';
   }
@@ -750,12 +742,6 @@ window.wToggleImp=function(){
   if(gi)gi.style.display=(v==='cpf')?'block':'none';
 };
 
-window.wToggleValImp=function(){
-  var pr=document.querySelector('[name="wpimp"]:checked');
-  var v=pr?pr.value:'';
-  var gv=document.getElementById('grp-val-imp');
-  if(gv)gv.style.display=(v==='sim'||v==='as-vezes')?'block':'none';
-};
 
 function wParse(s){
   if(!s)return NaN;
@@ -845,10 +831,6 @@ function blkFormalizacao(){
   }
   if(WD.protecoes.indexOf('inss')<0)recs.push('⚠️ Você não está contribuindo para o INSS. Sem contribuição, você perde direito a auxílio-doença, maternidade e aposentadoria.');
   if(c==='nao-sozinha'||c==='nao-quer')recs.push('<strong>Você não possui contador.</strong> Ter um especialista que entende a realidade do psicólogo faz diferença: além de cuidar de toda a burocracia fiscal, um bom contador especializado em psicólogos identifica oportunidades de economia tributária que quem atua sozinha normalmente não enxerga. O custo costuma ser recuperado logo no primeiro ano.');
-  var imp=WD.valImp||0, rend=WD.renda||0;
-  if(imp>0&&rend>0&&(imp/rend*100)>8){
-    recs.unshift('<span style="color:#e53935;font-weight:700;">&#9888; Alerta: carga tributária de '+(imp/rend*100).toFixed(1)+'% — acima de 8%, o que pode indicar regime tributário não otimizado para psicólogas.</span>');
-  }
   recs.push(f==='nenhum'||f==='cpf'?'Simule a migração para CNPJ: psicólogos que faturam acima de R$8.000/mês frequentemente economizam 30% a 50% em impostos.':'Mantenha o pró-labore em 28% do faturamento para garantir o Fator R favorável no Simples Nacional.');
   return '<div class="diag-blk"><div class="diag-blk-hd"><span class="diag-blk-ttl">📋 Formalização e Impostos</span><span class="dtag '+tagCls+'">'+tagLbl+'</span></div><p>'+msg+'</p><ul>'+recs.map(function(r){return '<li>'+r+'</li>';}).join('')+'</ul></div>';
 }
@@ -1002,8 +984,7 @@ window.wRestart=function(){
   document.getElementById('wiz-tempo').value='';
   document.querySelectorAll('[name="wrenda"],[name="wsaldo"],[name="wform"],[name="wpimp"],[name="wcont"],[name="wrecibos"],[name="wdiv"],[name="wpoupar"],[name="wreservanivel"]').forEach(function(r){r.checked=false;});
   document.getElementById('grp-impostos').style.display='none';
-  document.getElementById('grp-val-imp').style.display='none';
-  WD={renda:0,tempo:'',saldoPerfil:'',despesas:{},totalDesp:0,formalizacao:'',pagaImp:'',valImp:0,protecoes:[],contador:'',recibos:'',objetivos:[],dividas:'',poupaRegular:'',reservaNivel:''};
+  WD={renda:0,tempo:'',saldoPerfil:'',despesas:{},totalDesp:0,formalizacao:'',pagaImp:'',protecoes:[],contador:'',recibos:'',objetivos:[],dividas:'',poupaRegular:'',reservaNivel:''};
   wShowStep(1);
 };
 
