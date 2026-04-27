@@ -511,11 +511,13 @@
 <div id="ws2" class="wiz-step">
   <div class="wiz-sh"><h2>Despesas e Situação Fiscal</h2><p>Informe suas despesas e como você está organizada profissionalmente.</p></div>
   <div class="card">
-    <div class="exp-row"><span class="exp-row-lbl">🏠 Despesas Pessoais</span><div class="exp-iw"><span>R$</span><input type="text" class="exp-inp" data-grp="pessoais" placeholder="0,00" inputmode="decimal" oninput="wSumGrp('pessoais')" onblur="wFmt(this)"/></div></div>
-    <div class="exp-row"><span class="exp-row-lbl">🏢 Despesas do Consultório</span><div class="exp-iw"><span>R$</span><input type="text" class="exp-inp" data-grp="consultorio" placeholder="0,00" inputmode="decimal" oninput="wSumGrp('consultorio')" onblur="wFmt(this)"/></div></div>
-    <div class="exp-total-bar">
-      <span>Total mensal de despesas</span>
-      <span id="wiz-total-desp">R$ 0,00</span>
+    <div class="wiz-grp">
+      <label class="wiz-lbl">Como está o seu orçamento no final do mês?</label>
+      <div class="wiz-range-grid" style="grid-template-columns:1fr;">
+        <label class="wiz-range-lbl"><input type="radio" name="wsaldo" value="deficit" class="wiz-range-inp"> Gasto mais do que a minha renda atual</label>
+        <label class="wiz-range-lbl"><input type="radio" name="wsaldo" value="equilibrio" class="wiz-range-inp"> Não estou endividada, mas não sobra nada no final do mês</label>
+        <label class="wiz-range-lbl"><input type="radio" name="wsaldo" value="sobra" class="wiz-range-inp"> Sempre sobra um valor que consigo poupar</label>
+      </div>
     </div>
     <div class="wiz-grp" style="margin-top:18px;">
       <label class="wiz-lbl">Como você recebe pelos seus serviços atualmente?</label>
@@ -525,7 +527,7 @@
       </div>
     </div>
     <div class="wiz-grp" id="grp-impostos" style="display:none;">
-      <label class="wiz-lbl">Vocé paga impostos sobre essa renda?</label>
+      <label class="wiz-lbl">Você paga impostos sobre essa renda?</label>
       <div class="wiz-radio-stack">
         <label class="wiz-rl"><input type="radio" name="wpimp" value="sim" onchange="wToggleValImp()"> Sim, regularmente</label>
         <label class="wiz-rl"><input type="radio" name="wpimp" value="as-vezes" onchange="wToggleValImp()"> Às vezes / irregularmente</label>
@@ -533,7 +535,7 @@
       </div>
     </div>
     <div class="wiz-grp" id="grp-val-imp" style="display:none;">
-      <label class="wiz-lbl" for="wiz-val-imp">Quanto você paga de impostos por més? (estimativa)</label>
+      <label class="wiz-lbl" for="wiz-val-imp">Quanto você paga de impostos por mês? (estimativa)</label>
       <div class="wiz-big-wrap" style="padding:10px 16px;">
         <span class="wiz-big-sym" style="font-size:16px;">R$</span>
         <input type="text" id="wiz-val-imp" class="wiz-big-inp" style="font-size:18px;" placeholder="0,00" inputmode="decimal" onblur="wFmt(this)"/>
@@ -562,38 +564,17 @@
   <div class="wiz-sh"><h2>Como você organiza sua prática hoje?</h2><p>Responda com sinceridade para um diagnóstico mais preciso.</p></div>
   <div class="card">
     <div class="wiz-grp">
-      <label class="wiz-lbl">Vocé emite recibos ou notas fiscais para todos os pacientes?</label>
+      <label class="wiz-lbl">Você emite recibos ou notas fiscais para todos os pacientes?</label>
       <div class="wiz-radio-stack">
         <label class="wiz-rl"><input type="radio" name="wrecibos" value="sim"> Sim</label>
         <label class="wiz-rl"><input type="radio" name="wrecibos" value="nao"> Não</label>
       </div>
     </div>
     <div class="wiz-grp">
-      <label class="wiz-lbl">Vocé tem uma conta bancária separada para a clínica?</label>
-      <div class="wiz-radio-stack">
-        <label class="wiz-rl"><input type="radio" name="wconta" value="sim"> Sim</label>
-        <label class="wiz-rl"><input type="radio" name="wconta" value="nao"> Não</label>
-      </div>
-    </div>
-    <div class="wiz-grp">
-      <label class="wiz-lbl">Vocé tem controle dos seus recebimentos?</label>
-      <div class="wiz-radio-stack">
-        <label class="wiz-rl"><input type="radio" name="wcontrole" value="sim"> Sim</label>
-        <label class="wiz-rl"><input type="radio" name="wcontrole" value="nao"> Não</label>
-      </div>
-    </div>
-    <div class="wiz-grp">
-      <label class="wiz-lbl">Vocé tem reserva financeira?</label>
+      <label class="wiz-lbl">Você tem reserva financeira?</label>
       <div class="wiz-radio-stack">
         <label class="wiz-rl"><input type="radio" name="wreserva" value="sim"> Sim</label>
         <label class="wiz-rl"><input type="radio" name="wreserva" value="nao"> Não</label>
-      </div>
-    </div>
-    <div class="wiz-grp">
-      <label class="wiz-lbl">Vocé sabe quanto gasta por més no consultório?</label>
-      <div class="wiz-radio-stack">
-        <label class="wiz-rl"><input type="radio" name="wgastos" value="sim"> Sim</label>
-        <label class="wiz-rl"><input type="radio" name="wgastos" value="nao"> Não</label>
       </div>
     </div>
   </div>
@@ -626,19 +607,21 @@
       </div>
     </div>
     <div class="wiz-grp">
-      <label class="wiz-lbl" for="wiz-poupanca">Qual valor você consegue poupar por mês atualmente?</label>
-      <div class="wiz-big-wrap" style="padding:10px 16px;">
-        <span class="wiz-big-sym" style="font-size:16px;">R$</span>
-        <input type="text" id="wiz-poupanca" class="wiz-big-inp" style="font-size:18px;" placeholder="0,00" inputmode="decimal" onblur="wFmt(this)"/>
+      <label class="wiz-lbl">Você consegue guardar algum valor mensalmente?</label>
+      <div class="wiz-radio-stack">
+        <label class="wiz-rl"><input type="radio" name="wpoupar" value="nao"> Não consigo</label>
+        <label class="wiz-rl"><input type="radio" name="wpoupar" value="sim"> Sim, consigo</label>
       </div>
     </div>
     <div class="wiz-grp">
-      <label class="wiz-lbl" for="wiz-reserva-valor">Quanto você tem guardado de reserva de emergência hoje?</label>
-      <div class="wiz-big-wrap" style="padding:10px 16px;">
-        <span class="wiz-big-sym" style="font-size:16px;">R$</span>
-        <input type="text" id="wiz-reserva-valor" class="wiz-big-inp" style="font-size:18px;" placeholder="0,00" inputmode="decimal" onblur="wFmt(this)"/>
+      <label class="wiz-lbl">Você possui reserva de emergéncia hoje?</label>
+      <div class="wiz-range-grid" style="grid-template-columns:1fr;">
+        <label class="wiz-range-lbl"><input type="radio" name="wreservanivel" value="nao" class="wiz-range-inp"> Não possuo</label>
+        <label class="wiz-range-lbl"><input type="radio" name="wreservanivel" value="1mes" class="wiz-range-inp"> Possuo pelo menos 1 mês de salário reservado</label>
+        <label class="wiz-range-lbl"><input type="radio" name="wreservanivel" value="3meses" class="wiz-range-inp"> Possuo 3 meses de salário reservados</label>
+        <label class="wiz-range-lbl"><input type="radio" name="wreservanivel" value="6meses" class="wiz-range-inp"> Possuo acima de 6 meses de salário reservado</label>
       </div>
-      <p style="font-size:11px;color:#aaa;margin-top:8px;font-weight:300;">Inclua valores em Tesouro Selic, CDB, poupança ou qualquer aplicação de fácil acesso. Pode ser zero.</p>
+    </div>
     </div>
   </div>
 </div>
@@ -659,7 +642,7 @@
 <script>
 (function(){
 var WS=1, WMAX=5;
-var WD={renda:0,fontes:[],tempo:'',variacao:'',despesas:{},totalDesp:0,formalizacao:'',pagaImp:'',valImp:0,inss:'',contador:'',recibos:'',contaSep:'',controle:'',reserva:'',sabeGastos:'',objetivos:[],dividas:'',poupanca:0,reservaValor:0};
+var WD={renda:0,fontes:[],tempo:'',variacao:'',saldoPerfil:'',despesas:{},totalDesp:0,formalizacao:'',pagaImp:'',valImp:0,inss:'',contador:'',recibos:'',reserva:'',objetivos:[],dividas:'',poupaRegular:'',reservaNivel:''};
 var STITLES=['Sua Renda','Despesas e Impostos','Organização','Metas','Diagnóstico'];
 var SPCT=[20,40,60,80,100];
 
@@ -725,13 +708,7 @@ function wCollect(s){
     WD.variacao=vr?vr.value:'';
   }
   if(s===2){
-    var grps=['pessoais','consultorio'];
-    grps.forEach(function(g){
-      var sum=0;
-      document.querySelectorAll('[data-grp="'+g+'"]').forEach(function(inp){sum+=wParse(inp.value)||0;});
-      WD.despesas[g]=sum;
-    });
-    WD.totalDesp=Object.values(WD.despesas).reduce(function(a,b){return a+b;},0);
+    var sr=document.querySelector('[name="wsaldo"]:checked'); WD.saldoPerfil=sr?sr.value:'';
     var fr=document.querySelector('[name="wform"]:checked'); WD.formalizacao=fr?fr.value:'';
     var pr=document.querySelector('[name="wpimp"]:checked'); WD.pagaImp=pr?pr.value:'';
     WD.valImp=wParse(document.getElementById('wiz-val-imp').value)||0;
@@ -740,16 +717,13 @@ function wCollect(s){
   }
   if(s===3){
     var rr=document.querySelector('[name="wrecibos"]:checked'); WD.recibos=rr?rr.value:'';
-    var rc=document.querySelector('[name="wconta"]:checked'); WD.contaSep=rc?rc.value:'';
-    var rl=document.querySelector('[name="wcontrole"]:checked'); WD.controle=rl?rl.value:'';
     var rv=document.querySelector('[name="wreserva"]:checked'); WD.reserva=rv?rv.value:'';
-    var rg=document.querySelector('[name="wgastos"]:checked'); WD.sabeGastos=rg?rg.value:'';
   }
   if(s===4){
     WD.objetivos=Array.from(document.querySelectorAll('.wiz-obj:checked')).map(function(x){return x.value;});
     var dr=document.querySelector('[name="wdiv"]:checked'); WD.dividas=dr?dr.value:'';
-    WD.poupanca=wParse(document.getElementById('wiz-poupanca').value)||0;
-    WD.reservaValor=wParse(document.getElementById('wiz-reserva-valor').value)||0;
+    var wp=document.querySelector('[name="wpoupar"]:checked'); WD.poupaRegular=wp?wp.value:'';
+    var wn=document.querySelector('[name="wreservanivel"]:checked'); WD.reservaNivel=wn?wn.value:'';
   }
 }
 
@@ -801,16 +775,16 @@ function fBR(v){return 'R$ '+v.toLocaleString('pt-BR',{minimumFractionDigits:2,m
 /* ===== DIAGNOSIS ENGINE ===== */
 function wCalcScore(){
   var s=0;
-  if(WD.contaSep==='sim')s+=15;
   if(WD.recibos==='sim')s+=10;
   if(WD.inss==='sim')s+=10;
   if(WD.pagaImp==='sim')s+=10;
-  if(WD.reserva==='sim')s+=15;
-  if(WD.controle==='sim')s+=10;
-  if(WD.sabeGastos==='sim')s+=10;
-  if(WD.totalDesp>0&&WD.renda>0&&WD.totalDesp<WD.renda*0.80)s+=10;
+  if(WD.poupaRegular==='sim')s+=15;
+  if(WD.reservaNivel==='1mes')s+=10;
+  else if(WD.reservaNivel==='3meses')s+=20;
+  else if(WD.reservaNivel==='6meses')s+=25;
+  if(WD.saldoPerfil==='sobra')s+=15;
   if(WD.contador==='sim')s+=5;
-  if(WD.formalizacao==='cnpj')s+=5;
+  if(WD.formalizacao==='cnpj')s+=10;
   return Math.min(100,s);
 }
 
@@ -822,61 +796,46 @@ function wScoreClass(sc){
 }
 
 function blkOrcamento(){
-  var r=WD.renda, d=WD.totalDesp;
-  if(!r)return '';
-  var pct=d/r*100;
-  var status,tagCls,msg;
-  if(pct>90){status='alert';tagCls='dtag-alert';msg='Suas despesas representam <strong>'+pct.toFixed(0)+'%</strong> da sua renda. Isso deixa margem mínima para reservas e imprevistos — qualquer imprevisto pode desequilibrar seu orçamento.';}
-  else if(pct>70){status='warn';tagCls='dtag-warn';msg='Suas despesas consomem <strong>'+pct.toFixed(0)+'%</strong> da sua renda. Há espaço para otimização — revise categorias e identifique onde é possível reduzir.';}
-  else{status='ok';tagCls='dtag-ok';msg='Você tem <strong>'+(100-pct).toFixed(0)+'%</strong> da renda disponível após as despesas. Boa margem — direcione esse excedente para reservas e investimentos.';}
-  var grpNames={pessoais:'Despesas Pessoais',consultorio:'Despesas do Consultório'};
-  var bars='';
-  Object.keys(WD.despesas).forEach(function(g){
-    if(WD.despesas[g]>0){
-      var p=(WD.despesas[g]/r*100);
-      bars+='<div class="diag-bar-item"><span class="diag-bar-lbl">'+grpNames[g]+'</span><div class="diag-bar-tr"><div class="diag-bar-fl" style="width:'+Math.min(100,p)+'%;"></div></div><span class="diag-bar-pct">'+p.toFixed(1)+'%</span></div>';
-    }
-  });
-  var tagLbl=pct>90?'Atenção':pct>70?'Oportunidade':'Bem encaminhado';
-  return '<div class="diag-blk"><div class="diag-blk-hd"><span class="diag-blk-ttl">⚖️ Proporção do Orçamento</span><span class="dtag '+tagCls+'">'+tagLbl+'</span></div><p>'+msg+'</p>'+(bars?'<div style="margin:14px 0;">'+bars+'</div>':'')+'<ul><li>A proporção ideal sugerida: 40% essenciais, 20% conforto, 15% lazer e 25% investimentos/dívidas.</li><li>Renda: '+fBR(r)+' &nbsp;·&nbsp; Despesas: '+fBR(d)+'</li>'+(d>r?'<li>⚠️ Suas despesas superam sua renda. Prioridade máxima: reduzir custos variáveis imediatamente.</li>':'')+'</ul></div>';
-}
-
-function blkReserva(){
-  var d=WD.totalDesp||WD.renda*0.7;
-  var metaMin=d*6;
-  var metaIdeal=d*12;
-  var atual=WD.reservaValor;
-  var poupa=WD.poupanca;
+  var saldo=WD.saldoPerfil;
+  if(!saldo)return '';
   var tagCls,tagLbl,msg,recs=[];
-
-  if(atual>=metaIdeal){
-    tagCls='dtag-ok';tagLbl='Reserva completa';
-    msg='Parabéns — você já atingiu a meta ideal de <strong>'+fBR(metaIdeal)+'</strong> (12x suas despesas mensais). Sua reserva de emergência está sólida. Agora você pode direcionar o excedente para investimentos de longo prazo.';
-  } else if(atual>=metaMin){
+  if(saldo==='deficit'){
+    tagCls='dtag-alert';tagLbl='Atenção';
+    msg='Vocé indicou que seus gastos superam a renda. Esse desequilíbrio, se não resolvido, leva ao acmulo de dívidas.';
+    recs=['Mapeie todos os gastos do mês e separe os essenciais dos opcionais.','Antes de qualquer investimento, equilibre entradas e saídas.','Considere aumentar a receita com novas sessóes ou serviços complementares.'];
+  } else if(saldo==='equilibrio'){
+    tagCls='dtag-warn';tagLbl='Oportunidade';
+    msg='Suas contas fecham, mas sem margem. Qualquer imprevisto pode desequilibrar seu orçamento.';
+    recs=['Pequenas reduçóes em gastos variáveis já criam espaço para guardar.','Defina um valor mínimo para separar todo mês — o hábito importa mais que o valor.','Revise assinaturas e custos fixos que possam ser eliminados ou reduzidos.'];
+  } else {
     tagCls='dtag-ok';tagLbl='Bem encaminhado';
-    var faltaIdeal=metaIdeal-atual;
-    var mesesIdeal=poupa>0?Math.ceil(faltaIdeal/poupa):null;
-    msg='Você já tem <strong>'+fBR(atual)+'</strong> guardado — acima da meta mínima de 6 meses ('+fBR(metaMin)+'). Para chegar à meta ideal de 12 meses ('+fBR(metaIdeal)+'), faltam ainda '+fBR(faltaIdeal)+'.';
-    if(mesesIdeal)msg+=' Com <strong>'+fBR(poupa)+'/mês</strong>, você completa a reserva ideal em aproximadamente <strong>'+mesesIdeal+' meses</strong>.';
-  } else if(atual>0){
+    msg='Vocé tem margem positiva no final do mês. Esse excedente precisa ser direcionado com intenção para construir património.';
+    recs=['Direcione o que sobra para reserva de emergéncia antes de qualquer outra aplicação.','Com a reserva formada, invista em Tesouro Selic, CDB ou outros ativos de renda fixa.'];
+  }
+  return '<div class="diag-blk"><div class="diag-blk-hd"><span class="diag-blk-ttl">&#9878;&#65039; Equilíbrio do Orçamento</span><span class="dtag '+tagCls+'">'+tagLbl+'</span></div><p>'+msg+'</p><ul>'+recs.map(function(r){return '<li>'+r+'</li>';}).join('')+'</ul></div>';
+}
+function blkReserva(){
+  var nivel=WD.reservaNivel, poupa=WD.poupaRegular;
+  var tagCls,tagLbl,msg,recs=[];
+  if(nivel==='6meses'){
+    tagCls='dtag-ok';tagLbl='Reserva completa';
+    msg='Parabéns! Você já possui mais de 6 meses de salário reservado. Sua reserva de emergência está sólida. Agora você pode direcionar o excedente para investimentos de longo prazo.';
+  } else if(nivel==='3meses'){
     tagCls='dtag-warn';tagLbl='Em construção';
-    var pctAtual=(atual/metaMin*100).toFixed(0);
-    var faltaMin=metaMin-atual;
-    var mesesMin=poupa>0?Math.ceil(faltaMin/poupa):null;
-    msg='Você tem <strong>'+fBR(atual)+'</strong> guardado — o equivalente a <strong>'+pctAtual+'%</strong> da meta mínima de 6 meses ('+fBR(metaMin)+'). Ainda faltam '+fBR(faltaMin)+' para atingir a segurança básica.';
-    if(mesesMin)msg+=' Poupando <strong>'+fBR(poupa)+'/mês</strong>, você completa a meta mínima em cerca de <strong>'+mesesMin+' meses</strong>.';
-    else msg+=' Defina um valor mensal para poupar e mantenha a consistência.';
+    msg='Você já tem 3 meses de salário reservado — um ótimo começo. A meta ideal é 6 meses. Continue guardando regularmente para alcançar essa segurança.';
+    if(poupa==='sim')msg+=' Como você já consegue guardar mensalmente, manter esse hábito vai acelerar o caminho.';
+  } else if(nivel==='1mes'){
+    tagCls='dtag-warn';tagLbl='Em construção';
+    msg='Você possui reserva equivalente a 1 mês de salário. É um primeiro passo importante, mas ainda há espaço para crescer. Busque chegar a 6 meses de cobertura.';
+    if(poupa!=='sim')msg+=' Definir um valor fixo para guardar todo mês é o próximo passo essencial.';
   } else {
     tagCls='dtag-alert';tagLbl='Atenção';
-    var meses0=poupa>0?Math.ceil(metaMin/poupa):null;
-    msg='Você ainda não tem reserva de emergência formada. Sua meta mínima é <strong>'+fBR(metaMin)+'</strong> (6x suas despesas mensais) e a meta ideal é <strong>'+fBR(metaIdeal)+'</strong> (12x).';
-    if(meses0)msg+=' Poupando <strong>'+fBR(poupa)+'/mês</strong>, você levaria aproximadamente <strong>'+meses0+' meses</strong> para atingir a meta mínima.';
-    else msg+=' Defina quanto consegue separar por mês e comece o quanto antes — qualquer valor já é um passo.';
+    msg='Você ainda não possui reserva de emergência formada. Isso significa que qualquer imprevisto — uma doença, uma queda de pacientes, um equipamento quebrado — pode comprometer suas finanças.';
   }
-
   recs.push('Guarde a reserva em Tesouro Selic ou CDB com liquidez diária — fora do alcance do dia a dia.');
-  recs.push('Meta mínima: 6 meses de despesas. Meta ideal: 12 meses. Só depois pense em outros investimentos.');
-  if(!atual||atual<metaMin)recs.push('Comece separando um valor fixo todo mês, mesmo que seja '+fBR(Math.max(100,d*0.05))+'. O hábito vale mais do que o valor inicial.');
+  recs.push('A meta ideal é 6 meses de despesas. Só depois dessa segurança, pense em outros investimentos.');
+  if(!nivel||nivel==='nao'||nivel==='1mes')recs.push('Defina um valor fixo para separar todo mês — mesmo pequeno. O hábito de guardar vale mais do que o valor inicial.');
+  if(poupa!=='sim')recs.push('Procure identificar um gasto que pode ser reduzido para começar a guardar mensalmente. Pequenas sobras consistentes constroem grandes reservas.');
   return '<div class="diag-blk"><div class="diag-blk-hd"><span class="diag-blk-ttl">🏦 Reserva de Emergência</span><span class="dtag '+tagCls+'">'+tagLbl+'</span></div><p>'+msg+'</p><ul>'+recs.map(function(r){return '<li>'+r+'</li>';}).join('')+'</ul></div>';
 }
 
@@ -915,21 +874,18 @@ function blkFormalizacao(){
 }
 
 function blkControle(){
-  var rec=WD.recibos, cont=WD.contaSep, ctrl=WD.controle, sabe=WD.sabeGastos;
-  var pts=0;
-  if(rec==='sim')pts++;
-  if(cont==='sim')pts++;
-  if(ctrl==='sim')pts++;
-  if(sabe==='sim')pts++;
-  var tagCls=pts>=3?'dtag-ok':pts>=2?'dtag-warn':'dtag-alert';
-  var tagLbl=pts>=3?'Bem encaminhado':pts>=2?'Oportunidade':'Atenção';
-  var msg='Seu controle operacional da clínica '+( pts>=3?'está bem estruturado.':pts>=2?'tem pontos positivos, mas ainda há espaço para melhorar.':'precisa de atenção. Controlar entradas e saídas é a base de toda gestão financeira saudável.');
+  var rec=WD.recibos;
+  var tagCls=rec==='sim'?'dtag-ok':'dtag-alert';
+  var tagLbl=rec==='sim'?'Bem encaminhado':'Atenção';
+  var msg=rec==='sim'?'Você emite recibo ou nota fiscal para seus atendimentos. Isso protege você fiscalmente e profissionaliza sua relação com os pacientes.':'Emitir recibo ou nota fiscal para cada atendimento é fundamental para sua segurança fiscal e para a organização do consultório.';
   var recs=[];
-  if(cont!=='sim')recs.push('Abra uma conta bancária exclusiva para a clínica — banco digital não cobra tarifas e a separação facilita tudo.');
-  if(ctrl!=='sim')recs.push('Implemente uma planilha ou app de controle de recebimentos. Qualquer ferramenta que você use de forma consistente é melhor que nenhuma.');
-  if(rec!=='sim')recs.push('Emita recibo ou nota fiscal para todos os atendimentos — isso protege você fiscalmente e profissionaliza sua relação com os pacientes.');
-  if(sabe!=='sim')recs.push('Mapeie seus custos fixos mensais do consultório. Saber esse número é essencial para precificar corretamente seus atendimentos.');
-  if(!recs.length)recs.push('Continue com as boas práticas! Revise seus controles a cada trimestre para identificar oportunidades de melhoria.');
+  if(rec!=='sim'){
+    recs.push('Emita recibo ou nota fiscal para todos os atendimentos — isso protege você fiscalmente e profissionaliza sua relação com os pacientes.');
+    recs.push('Se você é PF, utilize o Receita Saúde para emissão de recibos. Se é PJ, emita nota fiscal diretamente pelo sistema da prefeitura.');
+  } else {
+    recs.push('Continue emitindo documentos fiscais em todos os atendimentos. Guarde os comprovantes para a declaração do IRPF.');
+    recs.push('Mantenha um controle simples de recebimentos — uma planilha com data, valor e paciente já é suficiente para o controle financeiro básico.');
+  }
   return '<div class="diag-blk"><div class="diag-blk-hd"><span class="diag-blk-ttl">📊 Controle da Clínica</span><span class="dtag '+tagCls+'">'+tagLbl+'</span></div><p>'+msg+'</p><ul>'+recs.map(function(r){return '<li>'+r+'</li>';}).join('')+'</ul></div>';
 }
 
@@ -937,11 +893,9 @@ function wGenActions(sc){
   var actions=[];
   var d=WD;
   if(d.formalizacao==='nenhum')actions.push({t:'Regularize sua situação fiscal',d:'Você ainda não tem formalização. Busque orientação especializada para entender se CPF ou CNPJ é o melhor caminho para o seu caso.',prazo:'Esta semana'});
-  if(d.reserva==='nao')actions.push({t:'Construa sua reserva de emergência',d:'Defina um valor mensal para guardar e automatize a transferência no dia do pagamento. Comece com o que for possível — o hábito importa mais que o valor inicial.',prazo:'Este mês'});
+  if(!d.reservaNivel||d.reservaNivel==='nao')actions.push({t:'Construa sua reserva de emergência',d:'Defina um valor mensal para guardar e automatize a transferência no dia do pagamento. Comece com o que for possível — o hábito importa mais que o valor inicial.',prazo:'Este mês'});
   if(d.inss==='nao')actions.push({t:'Regularize sua contribuição ao INSS',d:'Contribuição ao INSS garante proteção em caso de doença, maternidade e aposentadoria. O custo de não contribuir é muito maior no longo prazo.',prazo:'Este mês'});
-  if(d.contaSep!=='sim')actions.push({t:'Abra uma conta exclusiva para a clínica',d:'Separar finanças pessoais das profissionais é o passo mais importante para ter clareza financeira. Banco digital: gratuito e sem burocracia.',prazo:'Esta semana'});
   if(d.pagaImp!=='sim'&&d.formalizacao&&d.formalizacao!=='nenhum')actions.push({t:'Regularize o pagamento dos impostos',d:'Impostos em atraso geram multa e juros que crescem rapidamente. Quite pendências e estabeleça uma rotina de pagamento mensal.',prazo:'Este mês'});
-  if(d.controle!=='sim')actions.push({t:'Implemente controle de recebimentos',d:'Crie uma planilha simples ou baixe um app para registrar todos os pagamentos recebidos. Esse controle é a base de qualquer gestão financeira.',prazo:'Esta semana'});
   if(d.objetivos.indexOf('impostos')>=0&&(d.formalizacao==='cpf'||d.formalizacao==='nenhum'))actions.push({t:'Simule a migração para CNPJ',d:'Com seu faturamento, a abertura de CNPJ no Simples Nacional pode representar economia de 30% a 50% em impostos. Peça uma simulação.',prazo:'Próximos 3 meses'});
   if(d.dividas==='juros')actions.push({t:'Quite as dívidas com juros altos',d:'Dívidas em cartão de crédito ou cheque especial podem ter juros acima de 200% ao ano. Priorize a quitação antes de qualquer investimento.',prazo:'Este mês'});
   if(!actions.length)actions.push({t:'Mantenha e evolua seus controles',d:'Sua situação já está bem estruturada. Foque em aumentar a reserva, diversificar investimentos e revisar anualmente seu planejamento tributário.',prazo:'Próximos 3 meses'});
@@ -1033,16 +987,14 @@ window.wRestart=function(){
   document.querySelectorAll('[name="wrenda"]').forEach(function(r){r.checked=false;});
   document.querySelectorAll('.wiz-fonte,.wiz-obj').forEach(function(c){c.checked=false;});
   document.getElementById('wiz-tempo').value='';
-  document.querySelectorAll('[name="wrenda"],[name="wvariacao"],[name="wform"],[name="wpimp"],[name="winss"],[name="wcont"],[name="wdiv"]').forEach(function(r){r.checked=false;});
-  document.querySelectorAll('.exp-inp').forEach(function(i){i.value='';});
-  document.querySelectorAll('.exp-sub').forEach(function(s){s.textContent='R$ 0,00';});
-  document.getElementById('wiz-total-desp').textContent='R$ 0,00';
-  document.querySelectorAll('[name="wrecibos"],[name="wconta"],[name="wcontrole"],[name="wreserva"],[name="wgastos"]').forEach(function(r){r.checked=false;});
-  document.getElementById('wiz-poupanca').value='';
-  document.getElementById('wiz-reserva-valor').value='';
+  document.querySelectorAll('[name="wrenda"],[name="wsaldo"],[name="wvariacao"],[name="wform"],[name="wpimp"],[name="winss"],[name="wcont"],[name="wdiv"]').forEach(function(r){r.checked=false;});
+  
+  
+  
+  document.querySelectorAll('[name="wrecibos"],[name="wreserva"],[name="wpoupar"],[name="wreservanivel"]').forEach(function(r){r.checked=false;});
   document.getElementById('grp-impostos').style.display='none';
   document.getElementById('grp-val-imp').style.display='none';
-  WD={renda:0,fontes:[],tempo:'',variacao:'',despesas:{},totalDesp:0,formalizacao:'',pagaImp:'',valImp:0,inss:'',contador:'',recibos:'',contaSep:'',controle:'',reserva:'',sabeGastos:'',objetivos:[],dividas:'',poupanca:0,reservaValor:0};
+  WD={renda:0,fontes:[],tempo:'',variacao:'',saldoPerfil:'',despesas:{},totalDesp:0,formalizacao:'',pagaImp:'',valImp:0,inss:'',contador:'',recibos:'',reserva:'',objetivos:[],dividas:'',poupaRegular:'',reservaNivel:''};
   wShowStep(1);
 };
 
