@@ -596,9 +596,8 @@
       <label class="wiz-lbl">Você possui reserva de emergéncia hoje?</label>
       <div class="wiz-range-grid" style="grid-template-columns:1fr;">
         <label class="wiz-range-lbl"><input type="radio" name="wreservanivel" value="nao" class="wiz-range-inp"> Não possuo</label>
-        <label class="wiz-range-lbl"><input type="radio" name="wreservanivel" value="1mes" class="wiz-range-inp"> Possuo pelo menos 1 mês de despesas fixas reservado</label>
-        <label class="wiz-range-lbl"><input type="radio" name="wreservanivel" value="3meses" class="wiz-range-inp"> Possuo 3 meses de despesas fixas reservados</label>
-        <label class="wiz-range-lbl"><input type="radio" name="wreservanivel" value="6meses" class="wiz-range-inp"> Possuo acima de 6 meses de despesas fixas reservados</label>
+        <label class="wiz-range-lbl"><input type="radio" name="wreservanivel" value="3meses" class="wiz-range-inp"> Possuo até 3 meses</label>
+        <label class="wiz-range-lbl"><input type="radio" name="wreservanivel" value="6meses" class="wiz-range-inp"> Possuo acima de 6 meses</label>
       </div>
     </div>
     </div>
@@ -755,8 +754,7 @@ function wCalcScore(){
   if(WD.inss==='sim')s+=10;
   if(WD.pagaImp==='sim')s+=10;
   if(WD.poupaRegular==='sim')s+=15;
-  if(WD.reservaNivel==='1mes')s+=10;
-  else if(WD.reservaNivel==='3meses')s+=20;
+  if(WD.reservaNivel==='3meses')s+=15;
   else if(WD.reservaNivel==='6meses')s+=25;
   if(WD.saldoPerfil==='sobra')s+=15;
   if(WD.contador==='sim')s+=5;
@@ -800,17 +798,13 @@ function blkReserva(){
     tagCls='dtag-ok';tagLbl='Meta mínima atingida';
     msg='Você já tem 3 meses de despesas fixas reservados — atingiu a meta mínima! A meta ideal são 6 meses. Continue guardando regularmente para chegar lá.';
     if(poupa==='sim')msg+=' Como você já consegue guardar mensalmente, manter esse hábito vai acelerar o caminho.';
-  } else if(nivel==='1mes'){
-    tagCls='dtag-warn';tagLbl='Em construção';
-    msg='Você possui reserva equivalente a 1 mês de despesas. É um primeiro passo importante — a meta mínima são 3 meses e a ideal são 6 meses. Continue avançando.';
-    if(poupa!=='sim')msg+=' Definir um valor fixo para guardar todo mês é o próximo passo essencial.';
   } else {
     tagCls='dtag-alert';tagLbl='Atenção';
     msg='Você ainda não possui reserva de emergência formada. Isso significa que qualquer imprevisto — uma doença, uma queda de pacientes, um equipamento quebrado — pode comprometer suas finanças. A meta mínima são 3 meses de despesas fixas.';
   }
   recs.push('Guarde a reserva em Tesouro Selic ou CDB com liquidez diária — fora do alcance do dia a dia.');
   recs.push('Meta mínima: 3 meses de despesas fixas. Meta ideal: 6 meses. Só depois dessa segurança, pense em outros investimentos.');
-  if(!nivel||nivel==='nao'||nivel==='1mes')recs.push('Defina um valor fixo para separar todo mês — mesmo pequeno. O hábito de guardar vale mais do que o valor inicial.');
+  if(!nivel||nivel==='nao')recs.push('Defina um valor fixo para separar todo mês — mesmo pequeno. O hábito de guardar vale mais do que o valor inicial.');
   if(poupa!=='sim')recs.push('Procure identificar um gasto que pode ser reduzido para começar a guardar mensalmente. Pequenas sobras consistentes constroem grandes reservas.');
   return '<div class="diag-blk"><div class="diag-blk-hd"><span class="diag-blk-ttl">🏦 Reserva de Emergência</span><span class="dtag '+tagCls+'">'+tagLbl+'</span></div><p>'+msg+'</p><ul>'+recs.map(function(r){return '<li>'+r+'</li>';}).join('')+'</ul></div>';
 }
