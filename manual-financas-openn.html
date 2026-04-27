@@ -745,6 +745,8 @@ function wCalcScore(){
   var s=0;
   if(WD.recibos==='sim')s+=10;
   if(WD.protecoes.indexOf('inss')>=0)s+=10;
+  if(WD.protecoes.length>=2)s+=10;
+  else if(WD.protecoes.length===1)s+=5;
   if(WD.pagaImp==='sim')s+=10;
   if(WD.poupaRegular==='sim')s+=15;
   if(WD.reservaNivel==='3meses')s+=15;
@@ -843,13 +845,35 @@ function blkControle(){
   var msg=rec==='sim'?'Você emite recibo ou nota fiscal para seus atendimentos. Isso protege você fiscalmente e profissionaliza sua relação com os pacientes.':'Emitir recibo ou nota fiscal para cada atendimento é fundamental para sua segurança fiscal e para a organização do consultório.';
   var recs=[];
   if(rec!=='sim'){
-    recs.push('Emita recibo ou nota fiscal para todos os atendimentos — isso protege você fiscalmente e profissionaliza sua relação com os pacientes.');
+    recs.push('<strong>PIX e cartão de crédito são monitorados pela Receita Federal.</strong> Toda movimentação financeira fica registrada — divergências entre o que você recebe e o que declara geram fiscalização e multa automática.');
+    recs.push('Somente em 2025 foram R$ 5,2 bilhões em multas de malha fina para pessoas físicas. Emitir recibo ou nota fiscal para cada atendimento é a forma mais simples de se proteger.');
     recs.push('Se você é PF, utilize o Receita Saúde para emissão de recibos. Se é PJ, emita nota fiscal diretamente pelo sistema da prefeitura.');
   } else {
     recs.push('Continue emitindo documentos fiscais em todos os atendimentos. Guarde os comprovantes para a declaração do IRPF.');
     recs.push('Mantenha um controle simples de recebimentos — uma planilha com data, valor e paciente já é suficiente para o controle financeiro básico.');
   }
   return '<div class="diag-blk"><div class="diag-blk-hd"><span class="diag-blk-ttl">📊 Controle da Clínica</span><span class="dtag '+tagCls+'">'+tagLbl+'</span></div><p>'+msg+'</p><ul>'+recs.map(function(r){return '<li>'+r+'</li>';}).join('')+'</ul></div>';
+}
+
+function blkProtecoes(){
+  var p=WD.protecoes;
+  if(!p||!p.length)p=[];
+  var nomes={'plano-saude':'Plano de Saúde','previdencia':'Previdência Privada','inss':'INSS','seguro-vida':'Seguro de Vida'};
+  var tagCls,tagLbl,msg,recs=[];
+  if(p.length>=2){
+    tagCls='dtag-ok';tagLbl='Bem protegida';
+    msg='Você possui '+p.length+' coberturas ativas ('+p.map(function(v){return nomes[v]||v;}).join(', ')+'). Ter mais de uma camada de proteção é essencial para quem trabalha por conta própria.';
+  } else if(p.length===1){
+    tagCls='dtag-warn';tagLbl='Atenção';
+    msg='Você possui apenas 1 cobertura ativa ('+( nomes[p[0]]||p[0])+'). Profissionais autônomos precisam de pelo menos Plano de Saúde e Seguro de Vida — sem vínculo empregatício, qualquer imprevisto pode comprometer sua renda e sua família.';
+  } else {
+    tagCls='dtag-alert';tagLbl='Vulnerável';
+    msg='Você não indicou nenhuma cobertura de proteção. Sem vínculo empregatício, você não tem FGTS, auxílio-doença pelo empregador nem seguro de vida automático. Qualquer imprevisto pode interromper sua renda e comprometer sua família.';
+  }
+  recs.push('Plano de Saúde e Seguro de Vida são as coberturas essenciais para qualquer profissional autônomo.');
+  if(p.indexOf('inss')<0)recs.push('Contribuir para o INSS garante direito a auxílio-doença, salário-maternidade e aposentadoria — sem ele, você perde esses benefícios.');
+  if(p.indexOf('previdencia')<0)recs.push('A Previdência Privada complementa a aposentadoria pública e pode ser deduzida no IRPF (PGBL), reduzindo impostos.');
+  return '<div class="diag-blk"><div class="diag-blk-hd"><span class="diag-blk-ttl">🛡️ Proteção e Seguridade</span><span class="dtag '+tagCls+'">'+tagLbl+'</span></div><p>'+msg+'</p><ul>'+recs.map(function(r){return '<li>'+r+'</li>';}).join('')+'</ul></div>';
 }
 
 function wGenActions(sc){
@@ -937,6 +961,7 @@ window.wGenDiag=function(){
   html+=blkSazonalidade();
   html+=blkFormalizacao();
   html+=blkControle();
+  html+=blkProtecoes();
   html+=wGenActions(sc);
   html+='<div class="highlight" style="margin-top:16px;">Este diagnóstico é baseado nas informações fornecidas e nos princípios do Manual Prático de Finanças para Psicólogas da Openn Psi. Para uma análise tributária individualizada, fale com nossa equipe especializada.<br><a href="https://www.grupoopenn.com/opennpsi" style="color:var(--gold);font-weight:700;">www.grupoopenn.com/opennpsi</a></div>';
   html+='<div class="wiz-print-actions" style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:20px;"><button class="wbtn-nxt" onclick="window.print()" style="padding:12px 28px;">🖨️ Imprimir / Salvar PDF</button><button class="wbtn-nxt" onclick="wRestart()" style="background:none;color:var(--mid);border:1px solid #e8e5dc;padding:12px 24px;">🔄 Refazer Diagnóstico</button></div>';
