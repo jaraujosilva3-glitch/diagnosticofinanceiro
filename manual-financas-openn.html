@@ -458,9 +458,8 @@
   <div class="wiz-prog-labels">
     <span id="wl0" class="wlbl-on">Renda</span>
     <span id="wl1">Despesas e Impostos</span>
-    <span id="wl2">Organização</span>
-    <span id="wl3">Metas</span>
-    <span id="wl4">Diagnóstico</span>
+    <span id="wl2">Metas</span>
+    <span id="wl3">Diagnóstico</span>
   </div>
 </div>
 
@@ -515,7 +514,7 @@
       <label class="wiz-lbl">Como está o seu orçamento no final do mês?</label>
       <div class="wiz-range-grid" style="grid-template-columns:1fr;">
         <label class="wiz-range-lbl"><input type="radio" name="wsaldo" value="deficit" class="wiz-range-inp"> Gasto mais do que a minha renda atual</label>
-        <label class="wiz-range-lbl"><input type="radio" name="wsaldo" value="equilibrio" class="wiz-range-inp"> Não estou endividada, mas não sobra nada no final do mês</label>
+        <label class="wiz-range-lbl"><input type="radio" name="wsaldo" value="equilibrio" class="wiz-range-inp"> Não sobra nada no final do mês</label>
         <label class="wiz-range-lbl"><input type="radio" name="wsaldo" value="sobra" class="wiz-range-inp"> Sempre sobra um valor que consigo poupar</label>
       </div>
     </div>
@@ -524,6 +523,13 @@
       <div class="wiz-radio-stack">
         <label class="wiz-rl"><input type="radio" name="wform" value="cpf" onchange="wToggleImp()"> Pessoa Física</label>
         <label class="wiz-rl"><input type="radio" name="wform" value="cnpj" onchange="wToggleImp()"> Pessoa Jurídica</label>
+      </div>
+    </div>
+    <div class="wiz-grp" style="margin-top:18px;">
+      <label class="wiz-lbl">Você emite recibos ou notas fiscais para todos os pacientes?</label>
+      <div class="wiz-radio-stack">
+        <label class="wiz-rl"><input type="radio" name="wrecibos" value="sim"> Sim</label>
+        <label class="wiz-rl"><input type="radio" name="wrecibos" value="nao"> Não</label>
       </div>
     </div>
     <div class="wiz-grp" id="grp-impostos" style="display:none;">
@@ -561,20 +567,6 @@
 
 <!-- STEP 3 -->
 <div id="ws3" class="wiz-step">
-  <div class="wiz-sh"><h2>Como você organiza sua prática hoje?</h2><p>Responda com sinceridade para um diagnóstico mais preciso.</p></div>
-  <div class="card">
-    <div class="wiz-grp">
-      <label class="wiz-lbl">Você emite recibos ou notas fiscais para todos os pacientes?</label>
-      <div class="wiz-radio-stack">
-        <label class="wiz-rl"><input type="radio" name="wrecibos" value="sim"> Sim</label>
-        <label class="wiz-rl"><input type="radio" name="wrecibos" value="nao"> Não</label>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- STEP 4 -->
-<div id="ws4" class="wiz-step">
   <div class="wiz-sh"><h2>O que você quer construir?</h2><p>Seus objetivos definem as prioridades do seu diagnóstico.</p></div>
   <div class="card">
     <div class="wiz-grp">
@@ -619,8 +611,8 @@
   </div>
 </div>
 
-<!-- STEP 6 -->
-<div id="ws5" class="wiz-step">
+<!-- STEP 4 -->
+<div id="ws4" class="wiz-step">
   <div class="wiz-sh"><h2>Seu Diagnóstico Financeiro</h2><p>Com base nas suas respostas, aqui está uma análise personalizada da sua saúde financeira.</p></div>
   <div id="wiz-diag-result"></div>
 </div>
@@ -634,16 +626,16 @@
 </section>
 <script>
 (function(){
-var WS=1, WMAX=5;
+var WS=1, WMAX=4;
 var WD={renda:0,fontes:[],tempo:'',variacao:'',saldoPerfil:'',despesas:{},totalDesp:0,formalizacao:'',pagaImp:'',valImp:0,inss:'',contador:'',recibos:'',objetivos:[],dividas:'',poupaRegular:'',reservaNivel:''};
-var STITLES=['Sua Renda','Despesas e Impostos','Organização','Metas','Diagnóstico'];
-var SPCT=[20,40,60,80,100];
+var STITLES=['Sua Renda','Despesas e Impostos','Metas','Diagnóstico'];
+var SPCT=[25,50,75,100];
 
 function wUpProg(s){
   document.getElementById('wpc').textContent='Passo '+s+' de '+WMAX;
   document.getElementById('wpst').textContent=STITLES[s-1];
   document.getElementById('wpf').style.width=SPCT[s-1]+'%';
-  for(var i=0;i<5;i++){
+  for(var i=0;i<4;i++){
     var el=document.getElementById('wl'+i);
     if(el) el.className=i<s?'wlbl-on':'';
   }
@@ -659,7 +651,7 @@ function wShowStep(s){
   var prv=document.getElementById('wbtn-prv');
   var nxt=document.getElementById('wbtn-nxt');
   if(s===1){prv.classList.add('wbtn-inv');}else{prv.classList.remove('wbtn-inv');}
-  if(s===5){nxt.className='wbtn-nxt wbtn-fin';nxt.textContent='Ver Diagnóstico';}
+  if(s===4){nxt.className='wbtn-nxt wbtn-fin';nxt.textContent='Ver Diagnóstico';}
   else{nxt.className='wbtn-nxt';nxt.innerHTML='Próximo Passo &#8594;';}
   wUpProg(s);
   var wrap=document.getElementById('ws'+s);
@@ -670,7 +662,7 @@ window.wNav=function(dir){
   if(dir>0){
     if(!wValidate(WS))return;
     wCollect(WS);
-    if(WS>=4){WS=5;wShowStep(5);wGenDiag();return;}
+    if(WS>=3){WS=4;wShowStep(4);wGenDiag();return;}
     WS++;wShowStep(WS);
   } else {
     WS=Math.max(1,WS-1);wShowStep(WS);
@@ -707,11 +699,9 @@ function wCollect(s){
     WD.valImp=wParse(document.getElementById('wiz-val-imp').value)||0;
     var ir=document.querySelector('[name="winss"]:checked'); WD.inss=ir?ir.value:'';
     var cr=document.querySelector('[name="wcont"]:checked'); WD.contador=cr?cr.value:'';
-  }
-  if(s===3){
     var rr=document.querySelector('[name="wrecibos"]:checked'); WD.recibos=rr?rr.value:'';
   }
-  if(s===4){
+  if(s===3){
     WD.objetivos=Array.from(document.querySelectorAll('.wiz-obj:checked')).map(function(x){return x.value;});
     var dr=document.querySelector('[name="wdiv"]:checked'); WD.dividas=dr?dr.value:'';
     var wp=document.querySelector('[name="wpoupar"]:checked'); WD.poupaRegular=wp?wp.value:'';
@@ -979,11 +969,7 @@ window.wRestart=function(){
   document.querySelectorAll('[name="wrenda"]').forEach(function(r){r.checked=false;});
   document.querySelectorAll('.wiz-fonte,.wiz-obj').forEach(function(c){c.checked=false;});
   document.getElementById('wiz-tempo').value='';
-  document.querySelectorAll('[name="wrenda"],[name="wsaldo"],[name="wvariacao"],[name="wform"],[name="wpimp"],[name="winss"],[name="wcont"],[name="wdiv"]').forEach(function(r){r.checked=false;});
-  
-  
-  
-  document.querySelectorAll('[name="wrecibos"],[name="wpoupar"],[name="wreservanivel"]').forEach(function(r){r.checked=false;});
+  document.querySelectorAll('[name="wrenda"],[name="wsaldo"],[name="wvariacao"],[name="wform"],[name="wpimp"],[name="winss"],[name="wcont"],[name="wrecibos"],[name="wdiv"],[name="wpoupar"],[name="wreservanivel"]').forEach(function(r){r.checked=false;});
   document.getElementById('grp-impostos').style.display='none';
   document.getElementById('grp-val-imp').style.display='none';
   WD={renda:0,fontes:[],tempo:'',variacao:'',saldoPerfil:'',despesas:{},totalDesp:0,formalizacao:'',pagaImp:'',valImp:0,inss:'',contador:'',recibos:'',objetivos:[],dividas:'',poupaRegular:'',reservaNivel:''};
