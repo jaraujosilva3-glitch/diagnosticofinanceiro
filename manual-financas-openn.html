@@ -570,13 +570,6 @@
         <label class="wiz-rl"><input type="radio" name="wrecibos" value="nao"> Não</label>
       </div>
     </div>
-    <div class="wiz-grp">
-      <label class="wiz-lbl">Você tem reserva financeira?</label>
-      <div class="wiz-radio-stack">
-        <label class="wiz-rl"><input type="radio" name="wreserva" value="sim"> Sim</label>
-        <label class="wiz-rl"><input type="radio" name="wreserva" value="nao"> Não</label>
-      </div>
-    </div>
   </div>
 </div>
 
@@ -642,7 +635,7 @@
 <script>
 (function(){
 var WS=1, WMAX=5;
-var WD={renda:0,fontes:[],tempo:'',variacao:'',saldoPerfil:'',despesas:{},totalDesp:0,formalizacao:'',pagaImp:'',valImp:0,inss:'',contador:'',recibos:'',reserva:'',objetivos:[],dividas:'',poupaRegular:'',reservaNivel:''};
+var WD={renda:0,fontes:[],tempo:'',variacao:'',saldoPerfil:'',despesas:{},totalDesp:0,formalizacao:'',pagaImp:'',valImp:0,inss:'',contador:'',recibos:'',objetivos:[],dividas:'',poupaRegular:'',reservaNivel:''};
 var STITLES=['Sua Renda','Despesas e Impostos','Organização','Metas','Diagnóstico'];
 var SPCT=[20,40,60,80,100];
 
@@ -717,7 +710,6 @@ function wCollect(s){
   }
   if(s===3){
     var rr=document.querySelector('[name="wrecibos"]:checked'); WD.recibos=rr?rr.value:'';
-    var rv=document.querySelector('[name="wreserva"]:checked'); WD.reserva=rv?rv.value:'';
   }
   if(s===4){
     WD.objetivos=Array.from(document.querySelectorAll('.wiz-obj:checked')).map(function(x){return x.value;});
@@ -819,21 +811,21 @@ function blkReserva(){
   var tagCls,tagLbl,msg,recs=[];
   if(nivel==='6meses'){
     tagCls='dtag-ok';tagLbl='Reserva completa';
-    msg='Parabéns! Você já possui mais de 6 meses de salário reservado. Sua reserva de emergência está sólida. Agora você pode direcionar o excedente para investimentos de longo prazo.';
+    msg='Parabéns! Você já possui mais de 6 meses de despesas fixas reservados. Sua reserva de emergência atingiu a meta ideal. Agora você pode direcionar o excedente para investimentos de longo prazo.';
   } else if(nivel==='3meses'){
-    tagCls='dtag-warn';tagLbl='Em construção';
-    msg='Você já tem 3 meses de salário reservado — um ótimo começo. A meta ideal é 6 meses. Continue guardando regularmente para alcançar essa segurança.';
+    tagCls='dtag-ok';tagLbl='Meta mínima atingida';
+    msg='Você já tem 3 meses de despesas fixas reservados — atingiu a meta mínima! A meta ideal são 6 meses. Continue guardando regularmente para chegar lá.';
     if(poupa==='sim')msg+=' Como você já consegue guardar mensalmente, manter esse hábito vai acelerar o caminho.';
   } else if(nivel==='1mes'){
     tagCls='dtag-warn';tagLbl='Em construção';
-    msg='Você possui reserva equivalente a 1 mês de salário. É um primeiro passo importante, mas ainda há espaço para crescer. Busque chegar a 6 meses de cobertura.';
+    msg='Você possui reserva equivalente a 1 mês de despesas. É um primeiro passo importante — a meta mínima são 3 meses e a ideal são 6 meses. Continue avançando.';
     if(poupa!=='sim')msg+=' Definir um valor fixo para guardar todo mês é o próximo passo essencial.';
   } else {
     tagCls='dtag-alert';tagLbl='Atenção';
-    msg='Você ainda não possui reserva de emergência formada. Isso significa que qualquer imprevisto — uma doença, uma queda de pacientes, um equipamento quebrado — pode comprometer suas finanças.';
+    msg='Você ainda não possui reserva de emergência formada. Isso significa que qualquer imprevisto — uma doença, uma queda de pacientes, um equipamento quebrado — pode comprometer suas finanças. A meta mínima são 3 meses de despesas fixas.';
   }
   recs.push('Guarde a reserva em Tesouro Selic ou CDB com liquidez diária — fora do alcance do dia a dia.');
-  recs.push('A meta ideal é 6 meses de despesas. Só depois dessa segurança, pense em outros investimentos.');
+  recs.push('Meta mínima: 3 meses de despesas fixas. Meta ideal: 6 meses. Só depois dessa segurança, pense em outros investimentos.');
   if(!nivel||nivel==='nao'||nivel==='1mes')recs.push('Defina um valor fixo para separar todo mês — mesmo pequeno. O hábito de guardar vale mais do que o valor inicial.');
   if(poupa!=='sim')recs.push('Procure identificar um gasto que pode ser reduzido para começar a guardar mensalmente. Pequenas sobras consistentes constroem grandes reservas.');
   return '<div class="diag-blk"><div class="diag-blk-hd"><span class="diag-blk-ttl">🏦 Reserva de Emergência</span><span class="dtag '+tagCls+'">'+tagLbl+'</span></div><p>'+msg+'</p><ul>'+recs.map(function(r){return '<li>'+r+'</li>';}).join('')+'</ul></div>';
@@ -991,10 +983,10 @@ window.wRestart=function(){
   
   
   
-  document.querySelectorAll('[name="wrecibos"],[name="wreserva"],[name="wpoupar"],[name="wreservanivel"]').forEach(function(r){r.checked=false;});
+  document.querySelectorAll('[name="wrecibos"],[name="wpoupar"],[name="wreservanivel"]').forEach(function(r){r.checked=false;});
   document.getElementById('grp-impostos').style.display='none';
   document.getElementById('grp-val-imp').style.display='none';
-  WD={renda:0,fontes:[],tempo:'',variacao:'',saldoPerfil:'',despesas:{},totalDesp:0,formalizacao:'',pagaImp:'',valImp:0,inss:'',contador:'',recibos:'',reserva:'',objetivos:[],dividas:'',poupaRegular:'',reservaNivel:''};
+  WD={renda:0,fontes:[],tempo:'',variacao:'',saldoPerfil:'',despesas:{},totalDesp:0,formalizacao:'',pagaImp:'',valImp:0,inss:'',contador:'',recibos:'',objetivos:[],dividas:'',poupaRegular:'',reservaNivel:''};
   wShowStep(1);
 };
 
