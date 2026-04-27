@@ -914,20 +914,22 @@ function blkProtecoes(){
 function wGenActions(sc){
   var actions=[];
   var d=WD;
+  // Sempre aparecem
+  actions.push({t:'Contrate um contador especialista em psicólogos',d:'Um contador especializado em psicólogos entende sua realidade, cuida de toda a burocracia fiscal e identifica oportunidades de economia que quem atua sozinha normalmente não enxerga. O custo costuma ser recuperado já no primeiro ano.',prazo:'Este mês'});
+  actions.push({t:'Faça um planejamento tributário',d:'Independente do seu regime atual, um planejamento tributário pode reduzir legalmente seus impostos. Em muitos casos a economia no primeiro ano já cobre o custo do serviço pelo ano inteiro.',prazo:'Este mês'});
+  // Condicionais
   if(d.formalizacao==='nenhum')actions.push({t:'Regularize sua situação fiscal',d:'Você ainda não tem formalização. Busque orientação especializada para entender se CPF ou CNPJ é o melhor caminho para o seu caso.',prazo:'Esta semana'});
   if(!d.reservaNivel||d.reservaNivel==='nao')actions.push({t:'Construa sua reserva de emergência',d:'Defina um valor mensal para guardar e automatize a transferência no dia do pagamento. Comece com o que for possível — o hábito importa mais que o valor inicial.',prazo:'Este mês'});
   if(d.protecoes.indexOf('inss')<0)actions.push({t:'Regularize sua contribuição ao INSS',d:'Contribuição ao INSS garante proteção em caso de doença, maternidade e aposentadoria. O custo de não contribuir é muito maior no longo prazo.',prazo:'Este mês'});
-  if(d.pagaImp!=='sim'&&d.formalizacao&&d.formalizacao!=='nenhum')actions.push({t:'Regularize o pagamento dos impostos',d:'Impostos em atraso geram multa e juros que crescem rapidamente. Quite pendências e estabeleça uma rotina de pagamento mensal.',prazo:'Este mês'});
-  if(d.objetivos.indexOf('impostos')>=0&&(d.formalizacao==='cpf'||d.formalizacao==='nenhum'))actions.push({t:'Simule a migração para CNPJ',d:'Com seu faturamento, a abertura de CNPJ no Simples Nacional pode representar economia de 30% a 50% em impostos. Peça uma simulação.',prazo:'Próximos 3 meses'});
-  if(d.protecoes.indexOf('plano-saude')<0)actions.push({t:'Contrate um Plano de Saúde',d:'Sem vínculo empregatício, você arca sozinha com custos médicos. Um plano de saúde é a proteção mais básica para quem trabalha por conta própria — uma internação sem plano pode comprometer anos de economia.',prazo:'Este mês'});
-  if(d.protecoes.indexOf('seguro-vida')<0)actions.push({t:'Contrate um Seguro de Vida',d:'O Seguro de Vida protege sua família em caso de invalidez ou falecimento. Para autônomos, é especialmente importante pois não há FGTS nem benefício automático do empregador. Valores a partir de R$ 50/mês já oferecem boa cobertura.',prazo:'Próximos 3 meses'});
+  if(d.pagaImp!=='sim'&&d.formalizacao==='cpf')actions.push({t:'Regularize o pagamento dos impostos',d:'O Carnê-Leão é obrigatório para autônomos. Impostos em atraso geram multa e juros que crescem rapidamente. Quite pendências e estabeleça uma rotina de pagamento mensal.',prazo:'Este mês'});
+  if(d.protecoes.indexOf('plano-saude')<0)actions.push({t:'Contrate um Plano de Saúde',d:'Sem vínculo empregatício, você arca sozinha com custos médicos. Um plano de saúde é a proteção mais básica para quem trabalha por conta própria.',prazo:'Este mês'});
+  if(d.protecoes.indexOf('seguro-vida')<0)actions.push({t:'Contrate um Seguro de Vida',d:'O Seguro de Vida protege sua família em caso de invalidez ou falecimento. Para autônomos, não há FGTS nem benefício automático do empregador. Valores a partir de R$ 50/mês já oferecem boa cobertura.',prazo:'Próximos 3 meses'});
   if(d.protecoes.indexOf('previdencia')<0)actions.push({t:'Considere uma Previdência Privada',d:'A Previdência Privada complementa a aposentadoria pública e, no modelo PGBL, permite deduzir até 12% da renda bruta no IRPF — reduzindo imposto agora e construindo patrimônio para o futuro.',prazo:'Próximos 3 meses'});
   if(d.dividas==='juros')actions.push({t:'Quite as dívidas com juros altos',d:'Dívidas em cartão de crédito ou cheque especial podem ter juros acima de 200% ao ano. Priorize a quitação antes de qualquer investimento.',prazo:'Este mês'});
-  if(!actions.length)actions.push({t:'Mantenha e evolua seus controles',d:'Sua situação já está bem estruturada. Foque em aumentar a reserva, diversificar investimentos e revisar anualmente seu planejamento tributário.',prazo:'Próximos 3 meses'});
-  actions=actions.slice(0,3);
-  var html='<div class="diag-act"><h3>Seus 3 Próximos Passos</h3>';
+  var html='<div class="diag-act"><h3>Seus Próximos Passos</h3>';
   actions.forEach(function(a,i){
-    html+='<div class="diag-act-item"><div class="diag-act-n">0'+(i+1)+'</div><div class="diag-act-c"><strong>'+a.t+'</strong><span>'+a.d+'</span><br><span class="diag-act-tag">'+a.prazo+'</span></div></div>';
+    var n=(i+1)<10?'0'+(i+1):''+(i+1);
+    html+='<div class="diag-act-item"><div class="diag-act-n">'+n+'</div><div class="diag-act-c"><strong>'+a.t+'</strong><span>'+a.d+'</span><br><span class="diag-act-tag">'+a.prazo+'</span></div></div>';
   });
   html+='</div>';
   return html;
