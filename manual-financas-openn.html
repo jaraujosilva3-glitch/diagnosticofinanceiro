@@ -269,6 +269,12 @@
 <main id="site-main" style="display:none">
 
 <style id="wiz-styles">
+.wiz-range-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px;}
+.wiz-range-lbl{display:flex;align-items:center;justify-content:center;padding:16px 10px;border:2px solid #e0ddd6;border-radius:10px;cursor:pointer;font-size:13px;font-weight:600;color:var(--mid);text-align:center;line-height:1.35;transition:border-color 0.18s,background 0.18s,color 0.18s;user-select:none;}
+.wiz-range-lbl:hover{border-color:var(--gold);background:rgba(213,171,57,0.06);}
+.wiz-range-inp{display:none;}
+.wiz-range-lbl:has(.wiz-range-inp:checked){border-color:var(--gold);background:rgba(213,171,57,0.12);color:var(--dark);font-weight:700;}
+@media(max-width:480px){.wiz-range-grid{grid-template-columns:1fr;}}
 .btn-back{display:inline-flex;align-items:center;gap:6px;background:none;border:1.5px solid #d0cdc5;border-radius:8px;padding:8px 16px;font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.8px;cursor:pointer;margin-bottom:20px;transition:border-color 0.2s,color 0.2s;}
 .btn-back:hover{border-color:var(--dark);color:var(--dark);}
 @media print{.btn-back{display:none!important;}}
@@ -465,11 +471,13 @@
   <div class="card">
     <div class="wiz-grp">
       <label class="wiz-lbl">Renda mensal média</label>
-      <div class="wiz-big-wrap">
-        <span class="wiz-big-sym">R$</span>
-        <input type="text" id="wiz-renda" class="wiz-big-inp" placeholder="0,00" inputmode="decimal" onblur="wFmt(this)" />
+      <div class="wiz-range-grid">
+        <label class="wiz-range-lbl"><input type="radio" name="wrenda" value="4000" class="wiz-range-inp"> Até R$ 5.000</label>
+        <label class="wiz-range-lbl"><input type="radio" name="wrenda" value="6500" class="wiz-range-inp"> Entre R$ 5.000 e R$ 8.000</label>
+        <label class="wiz-range-lbl"><input type="radio" name="wrenda" value="11500" class="wiz-range-inp"> Entre R$ 8.000 e R$ 15.000</label>
+        <label class="wiz-range-lbl"><input type="radio" name="wrenda" value="18000" class="wiz-range-inp"> Acima de R$ 15.000</label>
       </div>
-      <span class="wiz-err" id="err-renda">Informe sua renda mensal para continuar.</span>
+      <span class="wiz-err" id="err-renda" style="display:none;">Selecione sua faixa de renda para continuar.</span>
     </div>
     <div class="wiz-grp">
       <label class="wiz-lbl">Fontes de renda (selecione as que se aplicam)</label>
@@ -716,9 +724,9 @@ window.wNav=function(dir){
 
 function wValidate(s){
   if(s===1){
-    var r=wParse(document.getElementById('wiz-renda').value);
+    var rr=document.querySelector('[name="wrenda"]:checked');
     var errR=document.getElementById('err-renda');
-    if(!r||r<=0){errR.style.display='block';return false;}
+    if(!rr){errR.style.display='block';return false;}
     errR.style.display='none';
     var t=document.getElementById('wiz-tempo').value;
     var errT=document.getElementById('err-tempo');
@@ -730,7 +738,8 @@ function wValidate(s){
 
 function wCollect(s){
   if(s===1){
-    WD.renda=wParse(document.getElementById('wiz-renda').value)||0;
+    var rr=document.querySelector('[name="wrenda"]:checked');
+    WD.renda=rr?parseFloat(rr.value):0;
     WD.fontes=Array.from(document.querySelectorAll('.wiz-fonte:checked')).map(function(x){return x.value;});
     WD.tempo=document.getElementById('wiz-tempo').value;
     var vr=document.querySelector('[name="wvariacao"]:checked');
@@ -1045,10 +1054,10 @@ window.wGenDiag=function(){
 
 window.wRestart=function(){
   WS=1;
-  document.getElementById('wiz-renda').value='';
+  document.querySelectorAll('[name="wrenda"]').forEach(function(r){r.checked=false;});
   document.querySelectorAll('.wiz-fonte,.wiz-obj').forEach(function(c){c.checked=false;});
   document.getElementById('wiz-tempo').value='';
-  document.querySelectorAll('[name="wvariacao"],[name="wform"],[name="wpimp"],[name="winss"],[name="wcont"],[name="wdiv"]').forEach(function(r){r.checked=false;});
+  document.querySelectorAll('[name="wrenda"],[name="wvariacao"],[name="wform"],[name="wpimp"],[name="winss"],[name="wcont"],[name="wdiv"]').forEach(function(r){r.checked=false;});
   document.querySelectorAll('.exp-inp').forEach(function(i){i.value='';});
   document.querySelectorAll('.exp-sub').forEach(function(s){s.textContent='R$ 0,00';});
   document.getElementById('wiz-total-desp').textContent='R$ 0,00';
