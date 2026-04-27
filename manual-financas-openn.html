@@ -915,8 +915,8 @@ function wGenActions(sc){
   var actions=[];
   var d=WD;
   // Sempre aparecem
-  actions.push({t:'Contrate um contador especialista em psicólogos',d:'Um contador especializado em psicólogos entende sua realidade, cuida de toda a burocracia fiscal e identifica oportunidades de economia que quem atua sozinha normalmente não enxerga. O custo costuma ser recuperado já no primeiro ano.',prazo:'Este mês'});
-  actions.push({t:'Faça um planejamento tributário',d:'Independente do seu regime atual, um planejamento tributário pode reduzir legalmente seus impostos. Em muitos casos a economia no primeiro ano já cobre o custo do serviço pelo ano inteiro.',prazo:'Este mês'});
+  actions.push({t:'Contrate um contador especialista em psicólogos',d:'A Openn é especializada exclusivamente em psicólogos. Cuidamos de toda a burocracia fiscal, identificamos oportunidades de economia e você foca no que realmente importa: seus pacientes. O custo costuma ser recuperado já no primeiro ano.',prazo:'Este mês'});
+  actions.push({t:'Faça um planejamento tributário com a Openn',d:'Independente do seu regime atual, um planejamento tributário feito por especialistas em psicólogos pode reduzir legalmente seus impostos. Psicólogos que migram para PJ economizam de 30% a 50% em impostos — peça uma simulação gratuita.',prazo:'Este mês'});
   // Condicionais
   if(d.formalizacao==='nenhum')actions.push({t:'Regularize sua situação fiscal',d:'Você ainda não tem formalização. Busque orientação especializada para entender se CPF ou CNPJ é o melhor caminho para o seu caso.',prazo:'Esta semana'});
   if(!d.reservaNivel||d.reservaNivel==='nao')actions.push({t:'Construa sua reserva de emergência',d:'Defina um valor mensal para guardar e automatize a transferência no dia do pagamento. Comece com o que for possível — o hábito importa mais que o valor inicial.',prazo:'Este mês'});
@@ -1004,7 +1004,12 @@ window.wGenDiag=function(){
   html+=blkProtecoes();
   html+=wGenActions(sc);
   html+='<div class="highlight" style="margin-top:16px;">Este diagnóstico é baseado nas informações fornecidas e nos princípios do Manual Prático de Finanças para Psicólogas da Openn Psi. Para uma análise tributária individualizada, fale com nossa equipe especializada.<br><a href="https://www.grupoopenn.com/opennpsi" style="color:var(--gold);font-weight:700;">www.grupoopenn.com/opennpsi</a></div>';
-  html+='<div class="wiz-print-actions" style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:20px;"><button class="wbtn-nxt" onclick="window.print()" style="padding:12px 28px;">🖨️ Imprimir / Salvar PDF</button><button class="wbtn-nxt" onclick="wRestart()" style="background:none;color:var(--mid);border:1px solid #e8e5dc;padding:12px 24px;">🔄 Refazer Diagnóstico</button></div>';
+  html+='<div style="background:rgb(13,27,42);border-radius:12px;padding:28px 24px;margin-top:20px;text-align:center;">';
+  html+='<p style="color:rgba(255,255,255,0.65);font-size:12px;font-weight:400;margin-bottom:6px;letter-spacing:1px;text-transform:uppercase;">Você cuida dos seus pacientes</p>';
+  html+='<p style="color:#fff;font-size:16px;font-weight:800;margin-bottom:18px;line-height:1.4;">A <span style="color:rgb(213,171,57);">Openn</span> cuida de você.</p>';
+  html+='<a href="https://wa.me/5562996550808?text=Ol%C3%A1%2C%20fiz%20o%20diagn%C3%B3stico%20financeiro%20e%20gostaria%20de%20saber%20mais%20sobre%20os%20servi%C3%A7os%20da%20Openn!" target="_blank" style="display:inline-flex;align-items:center;gap:10px;background:rgb(213,171,57);color:rgb(13,27,42);font-family:Montserrat,sans-serif;font-size:12px;font-weight:800;letter-spacing:2px;text-transform:uppercase;padding:14px 28px;border-radius:10px;text-decoration:none;transition:opacity 0.2s;">Falar com a Openn no WhatsApp</a>';
+  html+='</div>';
+  html+='<div class="wiz-print-actions" style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:16px;"><button class="wbtn-nxt" onclick="window.print()" style="padding:12px 28px;">🖨️ Imprimir / Salvar PDF</button><button class="wbtn-nxt" onclick="wRestart()" style="background:none;color:var(--mid);border:1px solid #e8e5dc;padding:12px 24px;">🔄 Refazer Diagnóstico</button></div>';
   document.getElementById('wiz-diag-result').innerHTML=html;
   window.updateGauge(sc);
   document.getElementById('wiz-diag-result').scrollIntoView({behavior:'smooth',block:'start'});
