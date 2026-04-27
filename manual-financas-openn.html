@@ -510,13 +510,6 @@
       </select>
       <span id="err-tempo" style="display:none;color:#e57373;font-size:11px;margin-top:6px;display:none;">Por favor, selecione o tempo de atuação.</span>
     </div>
-    <div class="wiz-grp">
-      <label class="wiz-lbl">Sua renda costuma variar muito entre os meses?</label>
-      <div class="wiz-radio-stack">
-        <label class="wiz-rl"><input type="radio" name="wvariacao" value="sim"> Sim</label>
-        <label class="wiz-rl"><input type="radio" name="wvariacao" value="nao"> Não</label>
-      </div>
-    </div>
   </div>
 </div>
 
@@ -649,7 +642,7 @@
 <script>
 (function(){
 var WS=1, WMAX=4;
-var WD={renda:0,tempo:'',variacao:'',saldoPerfil:'',despesas:{},totalDesp:0,formalizacao:'',pagaImp:'',valImp:0,protecoes:[],contador:'',recibos:'',objetivos:[],dividas:'',poupaRegular:'',reservaNivel:''};
+var WD={renda:0,tempo:'',saldoPerfil:'',despesas:{},totalDesp:0,formalizacao:'',pagaImp:'',valImp:0,protecoes:[],contador:'',recibos:'',objetivos:[],dividas:'',poupaRegular:'',reservaNivel:''};
 var STITLES=['Sua Renda','Organização','Metas','Diagnóstico'];
 var SPCT=[25,50,75,100];
 
@@ -710,8 +703,6 @@ function wCollect(s){
     var rr=document.querySelector('[name="wrenda"]:checked');
     WD.renda=rr?parseFloat(rr.value):0;
     WD.tempo=document.getElementById('wiz-tempo').value;
-    var vr=document.querySelector('[name="wvariacao"]:checked');
-    WD.variacao=vr?vr.value:'';
   }
   if(s===2){
     var sr=document.querySelector('[name="wsaldo"]:checked'); WD.saldoPerfil=sr?sr.value:'';
@@ -839,17 +830,6 @@ function blkReserva(){
   return '<div class="diag-blk"><div class="diag-blk-hd"><span class="diag-blk-ttl">🏦 Reserva de Emergência</span><span class="dtag '+tagCls+'">'+tagLbl+'</span></div><p>'+msg+'</p><ul>'+recs.map(function(r){return '<li>'+r+'</li>';}).join('')+'</ul></div>';
 }
 
-function blkSazonalidade(){
-  if(!WD.variacao)return '';
-  if(WD.variacao!=='sim')return '';
-  var r=WD.renda;
-  var est=r*0.7;
-  var guard=r>est?(r-est)/2:0;
-  var tagCls='dtag-warn';
-  var tagLbl='Fique de olho';
-  var msg='Sua renda apresenta variação entre os meses. Acompanhe de perto os meses de menor receita e guarde parte dos meses bons para cobrir os fracos.';
-  return '<div class="diag-blk"><div class="diag-blk-hd"><span class="diag-blk-ttl">📅 Sazonalidade da Renda</span><span class="dtag '+tagCls+'">'+tagLbl+'</span></div><p>'+msg+'</p><ul><li>Os períodos mais críticos para psicólogas: julho (férias escolares) e dezembro/janeiro (festas + férias).</li><li>Nos meses de maior receita, guarde pelo menos '+fBR(guard)+'/mês extra além da sua reserva habitual.</li><li>Nunca comprometa 100% da renda de um mês bom — parte dela pertence aos meses fracos que virão.</li></ul></div>';
-}
 
 function blkFormalizacao(){
   var f=WD.formalizacao, c=WD.contador, pi=WD.pagaImp;
@@ -919,7 +899,7 @@ function wGenActions(sc){
   actions.push({t:'Faça um planejamento tributário com a Openn',d:'Independente do seu regime atual, um planejamento tributário feito por especialistas em psicólogos pode reduzir legalmente seus impostos. Psicólogos que migram para PJ economizam de 30% a 50% em impostos — peça uma simulação gratuita.',prazo:'Este mês'});
   // Condicionais
   if(d.formalizacao==='nenhum')actions.push({t:'Regularize sua situação fiscal',d:'Você ainda não tem formalização. Busque orientação especializada para entender se CPF ou CNPJ é o melhor caminho para o seu caso.',prazo:'Esta semana'});
-  if(!d.reservaNivel||d.reservaNivel==='nao')actions.push({t:'Construa sua reserva de emergência',d:'Defina um valor mensal para guardar e automatize a transferência no dia do pagamento. Comece com o que for possível — o hábito importa mais que o valor inicial.',prazo:'Este mês'});
+  if(!d.reservaNivel||d.reservaNivel==='nao')actions.push({t:'Construa sua reserva de emergência',d:'Profissionais autônomos não têm FGTS, seguro-desemprego nem salário garantido em meses de baixa. Ter pelo menos 3 meses de despesas fixas guardados é a base para trabalhar com tranquilidade. Defina um valor fixo para separar todo mês e automatize a transferência.',prazo:'Este mês'});
   if(d.protecoes.indexOf('inss')<0&&d.protecoes.indexOf('previdencia')<0)actions.push({t:'Garanta sua proteção previdenciária',d:'Você não possui INSS nem Previdência Privada. Escolha ao menos uma das duas: o INSS garante auxílio-doença, maternidade e aposentadoria pública; a Previdência Privada (PGBL) complementa a renda futura e ainda permite deduzir até 12% no IRPF.',prazo:'Este mês'});
   if(d.pagaImp!=='sim'&&d.formalizacao==='cpf')actions.push({t:'Regularize o pagamento dos impostos',d:'O Carnê-Leão é obrigatório para autônomos. Impostos em atraso geram multa e juros que crescem rapidamente. Quite pendências e estabeleça uma rotina de pagamento mensal.',prazo:'Este mês'});
   if(d.protecoes.indexOf('plano-saude')<0)actions.push({t:'Contrate um Plano de Saúde',d:'Sem vínculo empregatício, você arca sozinha com custos médicos. Um plano de saúde é a proteção mais básica para quem trabalha por conta própria.',prazo:'Este mês'});
@@ -999,7 +979,6 @@ window.wGenDiag=function(){
   '</div></div>';
   html+=blkOrcamento();
   html+=blkReserva();
-  html+=blkSazonalidade();
   html+=blkFormalizacao();
   html+=blkControle();
   html+=blkProtecoes();
@@ -1021,10 +1000,10 @@ window.wRestart=function(){
   document.querySelectorAll('[name="wrenda"]').forEach(function(r){r.checked=false;});
   document.querySelectorAll('.wiz-obj,.wiz-prot').forEach(function(c){c.checked=false;});
   document.getElementById('wiz-tempo').value='';
-  document.querySelectorAll('[name="wrenda"],[name="wsaldo"],[name="wvariacao"],[name="wform"],[name="wpimp"],[name="wcont"],[name="wrecibos"],[name="wdiv"],[name="wpoupar"],[name="wreservanivel"]').forEach(function(r){r.checked=false;});
+  document.querySelectorAll('[name="wrenda"],[name="wsaldo"],[name="wform"],[name="wpimp"],[name="wcont"],[name="wrecibos"],[name="wdiv"],[name="wpoupar"],[name="wreservanivel"]').forEach(function(r){r.checked=false;});
   document.getElementById('grp-impostos').style.display='none';
   document.getElementById('grp-val-imp').style.display='none';
-  WD={renda:0,tempo:'',variacao:'',saldoPerfil:'',despesas:{},totalDesp:0,formalizacao:'',pagaImp:'',valImp:0,protecoes:[],contador:'',recibos:'',objetivos:[],dividas:'',poupaRegular:'',reservaNivel:''};
+  WD={renda:0,tempo:'',saldoPerfil:'',despesas:{},totalDesp:0,formalizacao:'',pagaImp:'',valImp:0,protecoes:[],contador:'',recibos:'',objetivos:[],dividas:'',poupaRegular:'',reservaNivel:''};
   wShowStep(1);
 };
 
