@@ -478,14 +478,6 @@
       <span class="wiz-err" id="err-renda" style="display:none;">Selecione sua faixa de renda para continuar.</span>
     </div>
     <div class="wiz-grp">
-      <label class="wiz-lbl">Fontes de renda (selecione as que se aplicam)</label>
-      <div class="wiz-chk-grid">
-        <label class="wiz-chk"><input type="checkbox" class="wiz-fonte" value="psicoterapia"> Psicoterapia</label>
-        <label class="wiz-chk"><input type="checkbox" class="wiz-fonte" value="supervisao"> Supervisões</label>
-        <label class="wiz-chk"><input type="checkbox" class="wiz-fonte" value="cursos"> Cursos e Workshops</label>
-      </div>
-    </div>
-    <div class="wiz-grp">
       <label class="wiz-lbl" for="wiz-tempo">Há quanto tempo você atua como psicóloga(o)? <span style="color:#e57373;">*</span></label>
       <select id="wiz-tempo" class="wiz-sel" required>
         <option value="">Selecione...</option>
@@ -622,7 +614,7 @@
 <script>
 (function(){
 var WS=1, WMAX=4;
-var WD={renda:0,fontes:[],tempo:'',variacao:'',saldoPerfil:'',despesas:{},totalDesp:0,formalizacao:'',pagaImp:'',valImp:0,protecoes:[],contador:'',recibos:'',objetivos:[],dividas:'',poupaRegular:'',reservaNivel:''};
+var WD={renda:0,tempo:'',variacao:'',saldoPerfil:'',despesas:{},totalDesp:0,formalizacao:'',pagaImp:'',valImp:0,protecoes:[],contador:'',recibos:'',objetivos:[],dividas:'',poupaRegular:'',reservaNivel:''};
 var STITLES=['Sua Renda','Organização','Metas','Diagnóstico'];
 var SPCT=[25,50,75,100];
 
@@ -682,7 +674,6 @@ function wCollect(s){
   if(s===1){
     var rr=document.querySelector('[name="wrenda"]:checked');
     WD.renda=rr?parseFloat(rr.value):0;
-    WD.fontes=Array.from(document.querySelectorAll('.wiz-fonte:checked')).map(function(x){return x.value;});
     WD.tempo=document.getElementById('wiz-tempo').value;
     var vr=document.querySelector('[name="wvariacao"]:checked');
     WD.variacao=vr?vr.value:'';
@@ -957,12 +948,12 @@ window.wGenDiag=function(){
 window.wRestart=function(){
   WS=1;
   document.querySelectorAll('[name="wrenda"]').forEach(function(r){r.checked=false;});
-  document.querySelectorAll('.wiz-fonte,.wiz-obj,.wiz-prot').forEach(function(c){c.checked=false;});
+  document.querySelectorAll('.wiz-obj,.wiz-prot').forEach(function(c){c.checked=false;});
   document.getElementById('wiz-tempo').value='';
   document.querySelectorAll('[name="wrenda"],[name="wsaldo"],[name="wvariacao"],[name="wform"],[name="wpimp"],[name="wcont"],[name="wrecibos"],[name="wdiv"],[name="wpoupar"],[name="wreservanivel"]').forEach(function(r){r.checked=false;});
   document.getElementById('grp-impostos').style.display='none';
   document.getElementById('grp-val-imp').style.display='none';
-  WD={renda:0,fontes:[],tempo:'',variacao:'',saldoPerfil:'',despesas:{},totalDesp:0,formalizacao:'',pagaImp:'',valImp:0,protecoes:[],contador:'',recibos:'',objetivos:[],dividas:'',poupaRegular:'',reservaNivel:''};
+  WD={renda:0,tempo:'',variacao:'',saldoPerfil:'',despesas:{},totalDesp:0,formalizacao:'',pagaImp:'',valImp:0,protecoes:[],contador:'',recibos:'',objetivos:[],dividas:'',poupaRegular:'',reservaNivel:''};
   wShowStep(1);
 };
 
