@@ -136,6 +136,8 @@
   .checklist li:last-child { border-bottom: none; }
   .check-box { width: 20px; height: 20px; border-radius: 5px; border: 2px solid var(--gold); flex-shrink: 0; margin-top: 1px; }
 
+  .print-pilares { display: none; }
+
   /* 10 PILLARS */
   .pillar-row { display: flex; gap: 16px; margin-bottom: 14px; align-items: flex-start; }
   .pillar-num-big { font-size: 32px; font-weight: 800; line-height: 1; min-width: 42px; text-align: right; flex-shrink: 0; -webkit-text-stroke: 1.5px var(--gold); color: transparent; }
@@ -390,8 +392,14 @@
 
   /* mostrar seção e step */
   #diagnostico{display:block!important;padding:0!important;}
-  #ws6{display:block!important;animation:none!important;}
+  #ws4{display:block!important;animation:none!important;}
   #wiz-diag-result{display:block!important;}
+  .print-pilares{display:block!important;page-break-before:always;margin-top:0;}
+  .print-pilares-title{font-family:'Montserrat',sans-serif;font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:#0d1b2a;border-bottom:2px solid rgb(213,171,57);padding-bottom:8px;margin-bottom:18px;}
+  .print-pilares .pillar-row{break-inside:avoid;page-break-inside:avoid;margin-bottom:10px;display:flex;gap:14px;align-items:flex-start;}
+  .print-pilares .pillar-num-big{font-size:26px;font-weight:800;line-height:1;min-width:36px;text-align:right;flex-shrink:0;-webkit-text-stroke:1.5px rgb(213,171,57);color:transparent;}
+  .print-pilares .pillar-content strong{display:block;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:#0d1b2a;margin-bottom:2px;}
+  .print-pilares .pillar-content span{font-size:11px;font-weight:400;color:#555;line-height:1.6;}
 
   /* cabeçalho de impressão */
   #diagnostico::before{
@@ -602,6 +610,19 @@
 <div id="ws4" class="wiz-step">
   <div class="wiz-sh"><h2>Seu Diagnóstico Financeiro</h2><p>Com base nas suas respostas, aqui está uma análise personalizada da sua saúde financeira.</p></div>
   <div id="wiz-diag-result"></div>
+  <div class="print-pilares">
+    <div class="print-pilares-title">10 Pilares das Finanças para Psicólogas</div>
+    <div class="pillar-row"><div class="pillar-num-big">01</div><div class="pillar-content"><strong>Entenda e documente sua renda</strong><span>Mapeie todas as fontes e registre tudo que entra. A clareza começa pelo controle da entrada.</span></div></div>
+    <div class="pillar-row"><div class="pillar-num-big">02</div><div class="pillar-content"><strong>Separe finanças pessoais e da clínica</strong><span>Contas bancárias distintas. Misturar é o caminho mais curto para a desorganização.</span></div></div>
+    <div class="pillar-row"><div class="pillar-num-big">03</div><div class="pillar-content"><strong>Orce e controle seu dinheiro</strong><span>Orçamentos realistas e fluxo de caixa monitorado permitem decisões conscientes.</span></div></div>
+    <div class="pillar-row"><div class="pillar-num-big">04</div><div class="pillar-content"><strong>Regularize sua atuação profissional</strong><span>Escolha entre atuar como CPF ou CNPJ com base em simulações e orientação especializada.</span></div></div>
+    <div class="pillar-row"><div class="pillar-num-big">05</div><div class="pillar-content"><strong>Construa reservas financeiras</strong><span>Pessoal: 6 meses de despesas. Clínica: 3–6 meses de custos fixos.</span></div></div>
+    <div class="pillar-row"><div class="pillar-num-big">06</div><div class="pillar-content"><strong>Planeje seus impostos</strong><span>Reduzir impostos de forma legal é possível com organização e estratégia antecipada.</span></div></div>
+    <div class="pillar-row"><div class="pillar-num-big">07</div><div class="pillar-content"><strong>Defina metas financeiras</strong><span>Objetivos claros de curto, médio e longo prazo dão sentido ao esforço financeiro.</span></div></div>
+    <div class="pillar-row"><div class="pillar-num-big">08</div><div class="pillar-content"><strong>Invista com consciência e conhecimento</strong><span>Após a reserva, faça o dinheiro trabalhar por você. Comece simples e evolua.</span></div></div>
+    <div class="pillar-row"><div class="pillar-num-big">09</div><div class="pillar-content"><strong>Controle o contas a receber</strong><span>Não registrar é correr risco de não receber. Use planilhas ou sistemas de apoio.</span></div></div>
+    <div class="pillar-row" style="margin-bottom:0;"><div class="pillar-num-big">10</div><div class="pillar-content"><strong>Busque apoio especializado</strong><span>Contadores e empresas com foco em psicólogos são aliados valiosos. Delegue com confiança.</span></div></div>
+  </div>
 </div>
 
 <!-- NAV -->
