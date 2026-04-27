@@ -548,10 +548,12 @@
       </div>
     </div>
     <div class="wiz-grp">
-      <label class="wiz-lbl">Vocé contribui para o INSS ou tem algum plano de previdéncia privada?</label>
-      <div class="wiz-radio-stack">
-        <label class="wiz-rl"><input type="radio" name="winss" value="sim"> Sim</label>
-        <label class="wiz-rl"><input type="radio" name="winss" value="nao"> Não</label>
+      <label class="wiz-lbl">Selecione as opções que você possui:</label>
+      <div class="wiz-chk-grid">
+        <label class="wiz-chk"><input type="checkbox" class="wiz-prot" value="plano-saude"> Plano de Saúde</label>
+        <label class="wiz-chk"><input type="checkbox" class="wiz-prot" value="previdencia"> Previdência Privada</label>
+        <label class="wiz-chk"><input type="checkbox" class="wiz-prot" value="inss"> Pago INSS regularmente</label>
+        <label class="wiz-chk"><input type="checkbox" class="wiz-prot" value="seguro-vida"> Seguro de Vida</label>
       </div>
     </div>
     <div class="wiz-grp">
@@ -620,7 +622,7 @@
 <script>
 (function(){
 var WS=1, WMAX=4;
-var WD={renda:0,fontes:[],tempo:'',variacao:'',saldoPerfil:'',despesas:{},totalDesp:0,formalizacao:'',pagaImp:'',valImp:0,inss:'',contador:'',recibos:'',objetivos:[],dividas:'',poupaRegular:'',reservaNivel:''};
+var WD={renda:0,fontes:[],tempo:'',variacao:'',saldoPerfil:'',despesas:{},totalDesp:0,formalizacao:'',pagaImp:'',valImp:0,protecoes:[],contador:'',recibos:'',objetivos:[],dividas:'',poupaRegular:'',reservaNivel:''};
 var STITLES=['Sua Renda','Organização','Metas','Diagnóstico'];
 var SPCT=[25,50,75,100];
 
@@ -690,7 +692,7 @@ function wCollect(s){
     var fr=document.querySelector('[name="wform"]:checked'); WD.formalizacao=fr?fr.value:'';
     var pr=document.querySelector('[name="wpimp"]:checked'); WD.pagaImp=pr?pr.value:'';
     WD.valImp=wParse(document.getElementById('wiz-val-imp').value)||0;
-    var ir=document.querySelector('[name="winss"]:checked'); WD.inss=ir?ir.value:'';
+    WD.protecoes=Array.from(document.querySelectorAll('.wiz-prot:checked')).map(function(x){return x.value;});
     var cr=document.querySelector('[name="wcont"]:checked'); WD.contador=cr?cr.value:'';
     var rr=document.querySelector('[name="wrecibos"]:checked'); WD.recibos=rr?rr.value:'';
   }
@@ -751,7 +753,7 @@ function fBR(v){return 'R$ '+v.toLocaleString('pt-BR',{minimumFractionDigits:2,m
 function wCalcScore(){
   var s=0;
   if(WD.recibos==='sim')s+=10;
-  if(WD.inss==='sim')s+=10;
+  if(WD.protecoes.indexOf('inss')>=0)s+=10;
   if(WD.pagaImp==='sim')s+=10;
   if(WD.poupaRegular==='sim')s+=15;
   if(WD.reservaNivel==='3meses')s+=15;
@@ -822,7 +824,7 @@ function blkSazonalidade(){
 }
 
 function blkFormalizacao(){
-  var f=WD.formalizacao, i=WD.inss, c=WD.contador, pi=WD.pagaImp;
+  var f=WD.formalizacao, c=WD.contador, pi=WD.pagaImp;
   var tagCls,tagLbl,msg,recs=[];
   if(f==='nenhum'){tagCls='dtag-alert';tagLbl='Atenção urgente';msg='Você ainda não possui formalização. Atuar sem emitir documentos fiscais expõe você a riscos tributários e impede o controle correto da renda.';}
   else if(f==='cpf'){
@@ -833,7 +835,7 @@ function blkFormalizacao(){
     tagCls='dtag-ok';tagLbl='Bem encaminhado';
     msg='Você possui CNPJ — isso já representa uma grande vantagem fiscal. Verifique se o Fator R do Simples Nacional está acima de 28% para garantir a menor alíquota (Anexo III, 6%).';
   }
-  if(i==='nao')recs.push('⚠️ Você não está contribuindo para o INSS. Sem contribuição, você perde direito a auxílio-doença, maternidade e aposentadoria.');
+  if(WD.protecoes.indexOf('inss')<0)recs.push('⚠️ Você não está contribuindo para o INSS. Sem contribuição, você perde direito a auxílio-doença, maternidade e aposentadoria.');
   if(c==='nao-sozinha'||c==='nao-quer')recs.push('Considere contratar uma empresa especializada em psicólogos — o custo costuma ser recuperado em economia tributária logo no primeiro ano.');
   var imp=WD.valImp||0, rend=WD.renda||0;
   if(imp>0&&rend>0&&(imp/rend*100)>8){
@@ -864,7 +866,7 @@ function wGenActions(sc){
   var d=WD;
   if(d.formalizacao==='nenhum')actions.push({t:'Regularize sua situação fiscal',d:'Você ainda não tem formalização. Busque orientação especializada para entender se CPF ou CNPJ é o melhor caminho para o seu caso.',prazo:'Esta semana'});
   if(!d.reservaNivel||d.reservaNivel==='nao')actions.push({t:'Construa sua reserva de emergência',d:'Defina um valor mensal para guardar e automatize a transferência no dia do pagamento. Comece com o que for possível — o hábito importa mais que o valor inicial.',prazo:'Este mês'});
-  if(d.inss==='nao')actions.push({t:'Regularize sua contribuição ao INSS',d:'Contribuição ao INSS garante proteção em caso de doença, maternidade e aposentadoria. O custo de não contribuir é muito maior no longo prazo.',prazo:'Este mês'});
+  if(d.protecoes.indexOf('inss')<0)actions.push({t:'Regularize sua contribuição ao INSS',d:'Contribuição ao INSS garante proteção em caso de doença, maternidade e aposentadoria. O custo de não contribuir é muito maior no longo prazo.',prazo:'Este mês'});
   if(d.pagaImp!=='sim'&&d.formalizacao&&d.formalizacao!=='nenhum')actions.push({t:'Regularize o pagamento dos impostos',d:'Impostos em atraso geram multa e juros que crescem rapidamente. Quite pendências e estabeleça uma rotina de pagamento mensal.',prazo:'Este mês'});
   if(d.objetivos.indexOf('impostos')>=0&&(d.formalizacao==='cpf'||d.formalizacao==='nenhum'))actions.push({t:'Simule a migração para CNPJ',d:'Com seu faturamento, a abertura de CNPJ no Simples Nacional pode representar economia de 30% a 50% em impostos. Peça uma simulação.',prazo:'Próximos 3 meses'});
   if(d.dividas==='juros')actions.push({t:'Quite as dívidas com juros altos',d:'Dívidas em cartão de crédito ou cheque especial podem ter juros acima de 200% ao ano. Priorize a quitação antes de qualquer investimento.',prazo:'Este mês'});
@@ -955,12 +957,12 @@ window.wGenDiag=function(){
 window.wRestart=function(){
   WS=1;
   document.querySelectorAll('[name="wrenda"]').forEach(function(r){r.checked=false;});
-  document.querySelectorAll('.wiz-fonte,.wiz-obj').forEach(function(c){c.checked=false;});
+  document.querySelectorAll('.wiz-fonte,.wiz-obj,.wiz-prot').forEach(function(c){c.checked=false;});
   document.getElementById('wiz-tempo').value='';
-  document.querySelectorAll('[name="wrenda"],[name="wsaldo"],[name="wvariacao"],[name="wform"],[name="wpimp"],[name="winss"],[name="wcont"],[name="wrecibos"],[name="wdiv"],[name="wpoupar"],[name="wreservanivel"]').forEach(function(r){r.checked=false;});
+  document.querySelectorAll('[name="wrenda"],[name="wsaldo"],[name="wvariacao"],[name="wform"],[name="wpimp"],[name="wcont"],[name="wrecibos"],[name="wdiv"],[name="wpoupar"],[name="wreservanivel"]').forEach(function(r){r.checked=false;});
   document.getElementById('grp-impostos').style.display='none';
   document.getElementById('grp-val-imp').style.display='none';
-  WD={renda:0,fontes:[],tempo:'',variacao:'',saldoPerfil:'',despesas:{},totalDesp:0,formalizacao:'',pagaImp:'',valImp:0,inss:'',contador:'',recibos:'',objetivos:[],dividas:'',poupaRegular:'',reservaNivel:''};
+  WD={renda:0,fontes:[],tempo:'',variacao:'',saldoPerfil:'',despesas:{},totalDesp:0,formalizacao:'',pagaImp:'',valImp:0,protecoes:[],contador:'',recibos:'',objetivos:[],dividas:'',poupaRegular:'',reservaNivel:''};
   wShowStep(1);
 };
 
