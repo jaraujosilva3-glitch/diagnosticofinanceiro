@@ -508,13 +508,8 @@
 <div id="ws2" class="wiz-step">
   <div class="wiz-sh"><h2>Quais são suas despesas mensais?</h2><p>Informe o valor médio mensal de cada categoria. Deixe em zero o que não se aplica.</p></div>
   <div class="card">
-    <div class="exp-row"><span class="exp-row-lbl">🏠 Moradia</span><div class="exp-iw"><span>R$</span><input type="text" class="exp-inp" data-grp="moradia" placeholder="0,00" inputmode="decimal" oninput="wSumGrp('moradia')" onblur="wFmt(this)"/></div></div>
-    <div class="exp-row"><span class="exp-row-lbl">🚗 Transporte</span><div class="exp-iw"><span>R$</span><input type="text" class="exp-inp" data-grp="transporte" placeholder="0,00" inputmode="decimal" oninput="wSumGrp('transporte')" onblur="wFmt(this)"/></div></div>
-    <div class="exp-row"><span class="exp-row-lbl">🏥 Saúde</span><div class="exp-iw"><span>R$</span><input type="text" class="exp-inp" data-grp="saude" placeholder="0,00" inputmode="decimal" oninput="wSumGrp('saude')" onblur="wFmt(this)"/></div></div>
-    <div class="exp-row"><span class="exp-row-lbl">🍽️ Alimentação</span><div class="exp-iw"><span>R$</span><input type="text" class="exp-inp" data-grp="alimentacao" placeholder="0,00" inputmode="decimal" oninput="wSumGrp('alimentacao')" onblur="wFmt(this)"/></div></div>
-    <div class="exp-row"><span class="exp-row-lbl">🏢 Consultório</span><div class="exp-iw"><span>R$</span><input type="text" class="exp-inp" data-grp="consultorio" placeholder="0,00" inputmode="decimal" oninput="wSumGrp('consultorio')" onblur="wFmt(this)"/></div></div>
-    <div class="exp-row"><span class="exp-row-lbl">📚 Desenvolvimento</span><div class="exp-iw"><span>R$</span><input type="text" class="exp-inp" data-grp="desenvolvimento" placeholder="0,00" inputmode="decimal" oninput="wSumGrp('desenvolvimento')" onblur="wFmt(this)"/></div></div>
-    <div class="exp-row"><span class="exp-row-lbl">🎯 Outros</span><div class="exp-iw"><span>R$</span><input type="text" class="exp-inp" data-grp="outros" placeholder="0,00" inputmode="decimal" oninput="wSumGrp('outros')" onblur="wFmt(this)"/></div></div>
+    <div class="exp-row"><span class="exp-row-lbl">🏠 Despesas Pessoais</span><div class="exp-iw"><span>R$</span><input type="text" class="exp-inp" data-grp="pessoais" placeholder="0,00" inputmode="decimal" oninput="wSumGrp('pessoais')" onblur="wFmt(this)"/></div></div>
+    <div class="exp-row"><span class="exp-row-lbl">🏢 Despesas do Consultório</span><div class="exp-iw"><span>R$</span><input type="text" class="exp-inp" data-grp="consultorio" placeholder="0,00" inputmode="decimal" oninput="wSumGrp('consultorio')" onblur="wFmt(this)"/></div></div>
     <div class="exp-total-bar">
       <span>Total mensal de despesas</span>
       <span id="wiz-total-desp">R$ 0,00</span>
@@ -742,7 +737,7 @@ function wCollect(s){
     WD.variacao=vr?vr.value:'';
   }
   if(s===2){
-    var grps=['moradia','transporte','saude','alimentacao','consultorio','desenvolvimento','outros'];
+    var grps=['pessoais','consultorio'];
     grps.forEach(function(g){
       var sum=0;
       document.querySelectorAll('[data-grp="'+g+'"]').forEach(function(inp){sum+=wParse(inp.value)||0;});
@@ -849,7 +844,7 @@ function blkOrcamento(){
   if(pct>90){status='alert';tagCls='dtag-alert';msg='Suas despesas representam <strong>'+pct.toFixed(0)+'%</strong> da sua renda. Isso deixa margem mínima para reservas e imprevistos — qualquer imprevisto pode desequilibrar seu orçamento.';}
   else if(pct>70){status='warn';tagCls='dtag-warn';msg='Suas despesas consomem <strong>'+pct.toFixed(0)+'%</strong> da sua renda. Há espaço para otimização — revise categorias e identifique onde é possível reduzir.';}
   else{status='ok';tagCls='dtag-ok';msg='Você tem <strong>'+(100-pct).toFixed(0)+'%</strong> da renda disponível após as despesas. Boa margem — direcione esse excedente para reservas e investimentos.';}
-  var grpNames={moradia:'Moradia',transporte:'Transporte',saude:'Saúde',alimentacao:'Alimentação',consultorio:'Consultório',desenvolvimento:'Desenvolvimento',outros:'Outros'};
+  var grpNames={pessoais:'Despesas Pessoais',consultorio:'Despesas do Consultório'};
   var bars='';
   Object.keys(WD.despesas).forEach(function(g){
     if(WD.despesas[g]>0){
