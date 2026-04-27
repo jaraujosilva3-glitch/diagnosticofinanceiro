@@ -482,11 +482,8 @@
       <label class="wiz-lbl">Fontes de renda (selecione as que se aplicam)</label>
       <div class="wiz-chk-grid">
         <label class="wiz-chk"><input type="checkbox" class="wiz-fonte" value="psicoterapia"> Psicoterapia</label>
-        <label class="wiz-chk"><input type="checkbox" class="wiz-fonte" value="avaliacoes"> Avaliações / Laudos</label>
-        <label class="wiz-chk"><input type="checkbox" class="wiz-fonte" value="supervisao"> Supervisão</label>
-        <label class="wiz-chk"><input type="checkbox" class="wiz-fonte" value="cursos"> Cursos / Workshops</label>
-        <label class="wiz-chk"><input type="checkbox" class="wiz-fonte" value="consultoria"> Consultoria</label>
-        <label class="wiz-chk"><input type="checkbox" class="wiz-fonte" value="outras"> Outras</label>
+        <label class="wiz-chk"><input type="checkbox" class="wiz-fonte" value="supervisao"> Supervisões</label>
+        <label class="wiz-chk"><input type="checkbox" class="wiz-fonte" value="cursos"> Cursos e Workshops</label>
       </div>
     </div>
     <div class="wiz-grp">
@@ -503,9 +500,8 @@
     <div class="wiz-grp">
       <label class="wiz-lbl">Sua renda costuma variar muito entre os meses?</label>
       <div class="wiz-radio-stack">
-        <label class="wiz-rl"><input type="radio" name="wvariacao" value="muito"> Sim, varia bastante</label>
-        <label class="wiz-rl"><input type="radio" name="wvariacao" value="pouco"> Um pouco</label>
-        <label class="wiz-rl"><input type="radio" name="wvariacao" value="estavel"> Não, é relativamente estável</label>
+        <label class="wiz-rl"><input type="radio" name="wvariacao" value="sim"> Sim</label>
+        <label class="wiz-rl"><input type="radio" name="wvariacao" value="nao"> Não</label>
       </div>
     </div>
   </div>
@@ -783,7 +779,7 @@ window.wToggleImp=function(){
   var fr=document.querySelector('[name="wform"]:checked');
   var v=fr?fr.value:'';
   var gi=document.getElementById('grp-impostos');
-  if(gi)gi.style.display=(v&&v!=='nenhum')?'block':'none';
+  if(gi)gi.style.display=(v==='cpf')?'block':'none';
 };
 
 window.wToggleValImp=function(){
@@ -886,13 +882,13 @@ function blkReserva(){
 
 function blkSazonalidade(){
   if(!WD.variacao)return '';
-  if(WD.variacao==='estavel')return '';
+  if(WD.variacao!=='sim')return '';
   var r=WD.renda;
   var est=r*0.7;
   var guard=r>est?(r-est)/2:0;
-  var tagCls=WD.variacao==='muito'?'dtag-alert':'dtag-warn';
-  var tagLbl=WD.variacao==='muito'?'Atenção':'Fique de olho';
-  var msg=WD.variacao==='muito'?'Você indicou que sua renda varia bastante entre os meses. Isso exige planejamento ativo para que os meses bons cubram os meses fracos.':'Sua renda apresenta alguma variação. Acompanhe de perto os meses de menor receita.';
+  var tagCls='dtag-warn';
+  var tagLbl='Fique de olho';
+  var msg='Sua renda apresenta variação entre os meses. Acompanhe de perto os meses de menor receita e guarde parte dos meses bons para cobrir os fracos.';
   return '<div class="diag-blk"><div class="diag-blk-hd"><span class="diag-blk-ttl">📅 Sazonalidade da Renda</span><span class="dtag '+tagCls+'">'+tagLbl+'</span></div><p>'+msg+'</p><ul><li>Os períodos mais críticos para psicólogas: julho (férias escolares) e dezembro/janeiro (festas + férias).</li><li>Nos meses de maior receita, guarde pelo menos '+fBR(guard)+'/mês extra além da sua reserva habitual.</li><li>Nunca comprometa 100% da renda de um mês bom — parte dela pertence aos meses fracos que virão.</li></ul></div>';
 }
 
