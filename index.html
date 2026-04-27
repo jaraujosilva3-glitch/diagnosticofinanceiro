@@ -1180,6 +1180,11 @@ function lgSubmit(){
   if(!ok) return;
   var lead={nome:nome,email:email,fone:fone,ts:Date.now()};
   localStorage.setItem('openn_lead',JSON.stringify(lead));
+  fetch('https://joycehas.app.n8n.cloud/webhook/diagnostico-leads', {
+  method: 'POST',
+  headers: {'Content-Type': 'application/json'},
+  body: JSON.stringify(lead)
+}).catch(function(){});
   lgPersonalize(nome);
   var gate=document.getElementById('lead-gate');
   gate.style.opacity='0';
