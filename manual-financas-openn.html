@@ -195,11 +195,7 @@
   .sim-economy{background:rgba(76,175,80,0.1);border-left:4px solid #4caf50;border-radius:0 10px 10px 0;padding:16px 20px;margin-top:0;}
   .sim-economy-val{font-size:24px;font-weight:800;color:#4caf50;margin:6px 0 4px;}
   @media(max-width:640px){.exercise-nav{justify-content:center;} .sim-grid{grid-template-columns:1fr!important;}}
-<style id="wiz-styles">
-</style>
 
-<style id="wiz-styles">
-</style>
 <style id="lead-gate-css">
 #lead-gate{position:fixed;top:0;left:0;width:100%;height:100%;background:rgb(13,27,42);display:flex;align-items:center;justify-content:center;z-index:9999;padding:20px;transition:opacity 0.5s ease;}
 .lg-card{background:#fff;border-radius:16px;padding:40px 36px;max-width:440px;width:100%;box-shadow:0 24px 64px rgba(0,0,0,0.4);}
@@ -273,6 +269,9 @@
 <main id="site-main" style="display:none">
 
 <style id="wiz-styles">
+.btn-back{display:inline-flex;align-items:center;gap:6px;background:none;border:1.5px solid #d0cdc5;border-radius:8px;padding:8px 16px;font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.8px;cursor:pointer;margin-bottom:20px;transition:border-color 0.2s,color 0.2s;}
+.btn-back:hover{border-color:var(--dark);color:var(--dark);}
+@media print{.btn-back{display:none!important;}}
 /* WIZARD */
 .wiz-wrap{} 
 .wiz-prog-box{background:#f9f8f5;border:1px solid #e8e5dc;border-radius:12px;padding:18px 22px;margin-bottom:26px;}
@@ -443,6 +442,7 @@
 
 <!-- DIAGNÓSTICO -->
 <section class="section" id="diagnostico">
+<button class="btn-back" onclick="showSection('inicio',null,0)">&#8592; In&#237;cio</button>
 <div class="wiz-prog-box">
   <div class="wiz-prog-meta">
     <span class="wiz-prog-counter" id="wpc">Passo 1 de 6</span>
@@ -1083,6 +1083,7 @@ wShowStep(1);
 
 <!-- 10 PILARES -->
 <section class="section" id="pilares">
+  <button class="btn-back" onclick="showSection('diagnostico',null,1)">&#8592; Diagn&#243;stico</button>
   <div class="sec-title">
     <div class="sec-icon">
       <svg viewBox="0 0 24 24" fill="none" stroke="rgb(38,38,38)" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
