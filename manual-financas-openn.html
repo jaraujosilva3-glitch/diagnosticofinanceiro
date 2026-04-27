@@ -199,53 +199,67 @@
   @media(max-width:640px){.exercise-nav{justify-content:center;} .sim-grid{grid-template-columns:1fr!important;}}
 
 <style id="lead-gate-css">
-#lead-gate{position:fixed;top:0;left:0;width:100%;height:100%;background:rgb(13,27,42);display:flex;align-items:center;justify-content:center;z-index:9999;padding:20px;transition:opacity 0.5s ease;}
-.lg-card{background:#fff;border-radius:16px;padding:40px 36px;max-width:440px;width:100%;box-shadow:0 24px 64px rgba(0,0,0,0.4);}
-.lg-brand{text-align:center;margin-bottom:18px;font-size:20px;font-weight:800;color:rgb(13,27,42);letter-spacing:0.04em;text-transform:uppercase;}
-.lg-brand span{color:rgb(213,171,57);}
-.lg-accent{width:40px;height:3px;background:rgb(213,171,57);border-radius:2px;margin:0 auto 20px;}
-.lg-title{font-size:19px;font-weight:800;color:rgb(13,27,42);text-align:center;margin-bottom:8px;line-height:1.35;}
-.lg-sub{font-size:13px;color:#666;text-align:center;margin-bottom:24px;line-height:1.6;}
+#lead-gate{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(13,27,42,0.97);display:flex;align-items:center;justify-content:center;z-index:9999;padding:20px;transition:opacity 0.5s ease;}
+.lg-card{background:#fff;border-radius:18px;max-width:460px;width:100%;box-shadow:0 32px 80px rgba(0,0,0,0.55);overflow:hidden;}
+.lg-hero{background:rgb(13,27,42);padding:32px 36px 28px;position:relative;}
+.lg-hero::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:rgb(213,171,57);}
+.lg-brand{font-size:11px;font-weight:700;color:rgb(213,171,57);letter-spacing:3px;text-transform:uppercase;margin-bottom:20px;}
+.lg-title{font-size:22px;font-weight:800;color:#fff;line-height:1.3;margin-bottom:12px;}
+.lg-title span{color:rgb(213,171,57);}
+.lg-sub{font-size:13px;color:rgba(255,255,255,0.65);line-height:1.75;margin-bottom:22px;}
+.lg-badges{display:flex;gap:8px;flex-wrap:wrap;}
+.lg-badge{font-size:10px;font-weight:700;padding:5px 13px;border-radius:20px;border:1px solid rgba(213,171,57,0.35);color:rgba(213,171,57,0.8);letter-spacing:0.8px;text-transform:uppercase;}
+.lg-badge-gold{background:rgb(213,171,57);color:rgb(13,27,42);border-color:rgb(213,171,57);}
+.lg-form-wrap{padding:28px 36px 32px;}
 .lg-field{margin-bottom:14px;}
-.lg-field label{display:block;font-size:11px;font-weight:700;color:rgb(13,27,42);margin-bottom:5px;text-transform:uppercase;letter-spacing:0.05em;}
-.lg-field input{width:100%;padding:11px 13px;border:2px solid #e0e0e0;border-radius:8px;font-family:'Montserrat',sans-serif;font-size:14px;color:rgb(13,27,42);outline:none;transition:border-color 0.2s;}
-.lg-field input:focus{border-color:rgb(213,171,57);}
-.lg-field input.lg-invalid{border-color:#e53935;}
-.lg-err{display:block;font-size:11px;color:#e53935;margin-top:3px;min-height:13px;}
-.lg-btn{width:100%;padding:14px;margin-top:6px;background:rgb(213,171,57);border:none;border-radius:8px;font-family:'Montserrat',sans-serif;font-size:14px;font-weight:800;color:rgb(13,27,42);cursor:pointer;letter-spacing:0.03em;transition:opacity 0.2s,transform 0.15s;}
+.lg-field label{display:block;font-size:10px;font-weight:700;color:rgb(13,27,42);margin-bottom:5px;text-transform:uppercase;letter-spacing:0.06em;}
+.lg-field input{width:100%;padding:11px 14px;border:2px solid #e8e5dc;border-radius:8px;font-family:'Montserrat',sans-serif;font-size:13px;color:rgb(13,27,42);outline:none;transition:border-color 0.2s;background:#fafaf8;}
+.lg-field input:focus{border-color:rgb(213,171,57);background:#fff;}
+.lg-field input.lg-invalid{border-color:#e57373;}
+.lg-err{display:none;font-size:11px;color:#e57373;margin-top:4px;}
+.lg-btn{width:100%;padding:15px;background:rgb(213,171,57);color:rgb(13,27,42);font-family:'Montserrat',sans-serif;font-size:12px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;border:none;border-radius:10px;cursor:pointer;margin-top:6px;transition:opacity 0.2s,transform 0.2s;}
 .lg-btn:hover{opacity:0.88;transform:translateY(-1px);}
 .lg-btn:active{transform:translateY(0);}
-.lg-privacy{font-size:11px;color:#aaa;text-align:center;margin-top:12px;}
-@media(max-width:480px){.lg-card{padding:28px 18px;}.lg-title{font-size:16px;}.lg-brand{font-size:17px;}}
+.lg-privacy{font-size:10px;color:#bbb;text-align:center;margin-top:14px;line-height:1.6;}
+@media(max-width:480px){.lg-hero{padding:24px 22px 22px;}.lg-form-wrap{padding:22px 22px 26px;}.lg-title{font-size:18px;}}
 </style>
 </head>
 <body>
 <div id="lead-gate">
   <div class="lg-card">
-    <div class="lg-brand">OPENN <span>PSI</span></div>
-    <div class="lg-accent"></div>
-    <h2 class="lg-title">Manual Prático de Finanças para Psicólogas</h2>
-    <p class="lg-sub">Preencha seus dados para acessar o diagnóstico financeiro completo, de graça.</p>
-    <form id="lg-form" onsubmit="return false;">
-      <div class="lg-field">
-        <label for="lg-nome">Nome completo</label>
-        <input type="text" id="lg-nome" placeholder="Seu nome completo" autocomplete="name">
-        <span class="lg-err" id="lg-err-nome"></span>
+    <div class="lg-hero">
+      <div class="lg-brand">OPENN PSI</div>
+      <h2 class="lg-title">Qual é a sua <span>saúde financeira</span> hoje?</h2>
+      <p class="lg-sub">Vamos entender onde você está e quais são os próximos passos para melhorar. Leva apenas 5 minutos e você recebe um diagnóstico completo com todos os próximos passos.</p>
+      <div class="lg-badges">
+        <span class="lg-badge">5 minutos</span>
+        <span class="lg-badge">Diagnóstico completo</span>
+        <span class="lg-badge lg-badge-gold">Gratuito</span>
       </div>
-      <div class="lg-field">
-        <label for="lg-email">E-mail</label>
-        <input type="email" id="lg-email" placeholder="seu@email.com" autocomplete="email">
-        <span class="lg-err" id="lg-err-email"></span>
-      </div>
-      <div class="lg-field">
-        <label for="lg-fone">WhatsApp</label>
-        <input type="tel" id="lg-fone" placeholder="(00) 00000-0000" autocomplete="tel" oninput="lgMask(this)">
-        <span class="lg-err" id="lg-err-fone"></span>
-      </div>
-      <button type="button" class="lg-btn" onclick="lgSubmit()">Acessar Gratuitamente</button>
-    </form>
-    <p class="lg-privacy">Seus dados estao protegidos. Sem spam.</p>
+    </div>
+    <div class="lg-form-wrap">
+      <form id="lg-form" onsubmit="return false;">
+        <div class="lg-field">
+          <label for="lg-nome">Nome completo</label>
+          <input type="text" id="lg-nome" placeholder="Seu nome completo" autocomplete="name">
+          <span class="lg-err" id="lg-err-nome"></span>
+        </div>
+        <div class="lg-field">
+          <label for="lg-email">E-mail</label>
+          <input type="email" id="lg-email" placeholder="seu@email.com" autocomplete="email">
+          <span class="lg-err" id="lg-err-email"></span>
+        </div>
+        <div class="lg-field">
+          <label for="lg-fone">WhatsApp</label>
+          <input type="tel" id="lg-fone" placeholder="(00) 00000-0000" autocomplete="tel" oninput="lgMask(this)">
+          <span class="lg-err" id="lg-err-fone"></span>
+        </div>
+        <button type="button" class="lg-btn" onclick="lgSubmit()">Ver meu diagnóstico</button>
+      </form>
+      <p class="lg-privacy">Seus dados estão protegidos. Sem spam, sem compromisso.</p>
+    </div>
   </div>
+</div>
 </div>
 
 <header class="header" id="site-header" style="display:none">
