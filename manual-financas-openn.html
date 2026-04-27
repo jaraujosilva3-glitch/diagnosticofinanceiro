@@ -829,7 +829,7 @@ function blkFormalizacao(){
     msg='Você possui CNPJ — isso já representa uma grande vantagem fiscal. Verifique se o Fator R do Simples Nacional está acima de 28% para garantir a menor alíquota (Anexo III, 6%).';
   }
   if(WD.protecoes.indexOf('inss')<0)recs.push('⚠️ Você não está contribuindo para o INSS. Sem contribuição, você perde direito a auxílio-doença, maternidade e aposentadoria.');
-  if(c==='nao-sozinha'||c==='nao-quer')recs.push('Considere contratar uma empresa especializada em psicólogos — o custo costuma ser recuperado em economia tributária logo no primeiro ano.');
+  if(c==='nao-sozinha'||c==='nao-quer')recs.push('<strong>Você não possui contador.</strong> Ter um especialista que entende a realidade do psicólogo faz diferença: além de cuidar de toda a burocracia fiscal, um bom contador especializado em psicólogos identifica oportunidades de economia tributária que quem atua sozinha normalmente não enxerga. O custo costuma ser recuperado logo no primeiro ano.');
   var imp=WD.valImp||0, rend=WD.renda||0;
   if(imp>0&&rend>0&&(imp/rend*100)>8){
     recs.unshift('<span style="color:#e53935;font-weight:700;">&#9888; Alerta: carga tributária de '+(imp/rend*100).toFixed(1)+'% — acima de 8%, o que pode indicar regime tributário não otimizado para psicólogas.</span>');
