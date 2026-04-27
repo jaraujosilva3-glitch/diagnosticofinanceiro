@@ -924,7 +924,7 @@ function wGenActions(sc){
   if(d.pagaImp!=='sim'&&d.formalizacao==='cpf')actions.push({t:'Regularize o pagamento dos impostos',d:'O Carnê-Leão é obrigatório para autônomos. Impostos em atraso geram multa e juros que crescem rapidamente. Quite pendências e estabeleça uma rotina de pagamento mensal.',prazo:'Este mês'});
   if(d.protecoes.indexOf('plano-saude')<0)actions.push({t:'Contrate um Plano de Saúde',d:'Sem vínculo empregatício, você arca sozinha com custos médicos. Um plano de saúde é a proteção mais básica para quem trabalha por conta própria.',prazo:'Este mês'});
   if(d.protecoes.indexOf('seguro-vida')<0)actions.push({t:'Contrate um Seguro de Vida',d:'O Seguro de Vida protege sua família em caso de invalidez ou falecimento. Para autônomos, não há FGTS nem benefício automático do empregador. Valores a partir de R$ 50/mês já oferecem boa cobertura.',prazo:'Próximos 3 meses'});
-  if(d.dividas==='juros')actions.push({t:'Quite as dívidas com juros altos',d:'Dívidas em cartão de crédito ou cheque especial podem ter juros acima de 200% ao ano. Priorize a quitação antes de qualquer investimento.',prazo:'Este mês'});
+  if(d.dividas==='juros')actions.push({t:'Negocie suas dívidas com juros altos',d:'Negocie diretamente com os bancos um desconto para pagamento à vista ou em poucas parcelas. Em alguns casos há desconto de até 90% sobre o valor total da dívida.',prazo:'Este mês'});
   var html='<div class="diag-act"><h3>Seus Próximos Passos</h3>';
   actions.forEach(function(a,i){
     var n=(i+1)<10?'0'+(i+1):''+(i+1);
